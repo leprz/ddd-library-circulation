@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Library\Circulation;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
