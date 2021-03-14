@@ -4,9 +4,17 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Common\Infrastructure\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Library\Circulation\Common\Domain\Book\BookConstructorParameterInterface;
+
 /**
- * @package Library\Circulation\Common\Infrastructure\Entity
+ * @ORM\Entity()
+ * @ORM\Table(name="book")
  */
-class BookEntity
+class BookEntity extends LibraryCardEntity implements BookConstructorParameterInterface
 {
+    public function getLibraryCard(): LibraryCardEntity
+    {
+        return $this;
+    }
 }

@@ -19,7 +19,7 @@ class BookEntityMapper
     /**
      * @param \Doctrine\ORM\EntityManagerInterface
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
     }
 
@@ -30,13 +30,15 @@ class BookEntityMapper
      */
     public function mapToExistingEntity(BookEntity $entity, Book $model): BookEntity
     {
+        return $this->mapProperties($model, $entity, $this->entityManager);
     }
 
     /**
      * @param \Library\Circulation\Common\Domain\Book\Book
      * @return \Library\Circulation\Common\Infrastructure\Entity\BookEntity
      */
-    public function mapToNewEntity(Book $cart): BookEntity
+    public function mapToNewEntity(Book $model): BookEntity
     {
+        return $this->mapToExistingEntity($this->createNewInstanceWithoutConstructor(BookEntity::class), $model);
     }
 }

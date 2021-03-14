@@ -2,6 +2,11 @@
 
 namespace Library\Circulation;
 
+use Library\Circulation\Common\Application\Date\Builder\DateBuilderInterface;
+use Library\Circulation\Common\Application\Date\Builder\DateTimeBuilderInterface;
+use Library\Circulation\Common\Application\Date\DateTimeFactory;
+use Library\Circulation\Common\Infrastructure\Date\DateBuilder;
+use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
@@ -15,6 +20,8 @@ class Kernel extends BaseKernel
     {
         $container->import('../config/{packages}/*.yaml');
         $container->import('../config/{packages}/'.$this->environment.'/*.yaml');
+
+        $this->setDateAdapter();
 
         if (is_file(\dirname(__DIR__).'/config/services.yaml')) {
             $container->import('../config/services.yaml');
@@ -34,5 +41,28 @@ class Kernel extends BaseKernel
         } elseif (is_file($path = \dirname(__DIR__).'/config/routes.php')) {
             (require $path)($routes->withPath($path), $this);
         }
+    }
+
+    protected function setDateAdapter(): void
+    {
+        $date = new class() extends Common\Application\Date\DateFactory {
+            public static function setAdapter(DateBuilderInterface $adapter): void
+            {
+                parent::setAdapter($adapter);
+            }
+        };
+
+        $date::setAdapter(new DateBuilder());
+        unset($date);
+
+        $dateTime = new class() extends DateTimeFactory {
+            public static function setAdapter(DateTimeBuilderInterface $adapter): void
+            {
+                parent::setAdapter($adapter);
+            }
+        };
+
+        $dateTime::setAdapter(new DateTimeBuilder());
+        unset($dateTime);
     }
 }

@@ -7,7 +7,7 @@ namespace Library\Circulation\Common\Domain\ValueObject\Traits;
 use Library\Circulation\Common\Application\Exception\InvalidArgumentException;
 use Library\SharedKernel\Domain\ValueObject\UuidV4Trait;
 
-class UuidTrait
+trait UuidTrait
 {
     use UuidV4Trait;
 
