@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Library\Circulation\Common\Domain\LibraryCard;
 
 use Library\Circulation\Common\Domain\Book\CallNumber;
+use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
 use Library\Circulation\Common\Domain\Patron\PatronId;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
 
 class LibraryCardConstructorParameter implements LibraryCardConstructorParameterInterface
 {
-    public function libraryCardId(): LibraryCardId
+    public function libraryCardId(): LibraryMaterialId
     {
         // TODO: Implement libraryCardId() method.
     }

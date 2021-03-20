@@ -9,7 +9,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Library\Circulation\Common\Application\Persistence\BookRepositoryInterface;
 use Library\Circulation\Common\Domain\Book\Book;
-use Library\Circulation\Common\Domain\LibraryCard\LibraryCardId;
+use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
 use Library\Circulation\Common\Infrastructure\Entity\BookEntity;
 use Library\SharedKernel\Infrastructure\Persistence\QueryBuilderTrait;
 
@@ -38,10 +38,10 @@ class BookEntityRepository implements BookRepositoryInterface
     }
 
     /**
-     * @param \Library\Circulation\Common\Domain\LibraryCard\LibraryCardId $libraryCardId
+     * @param \Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId $libraryCardId
      * @return \Library\Circulation\Common\Domain\Book\Book
      */
-    public function getByLibraryCardId(LibraryCardId $libraryCardId): Book
+    public function getByLibraryCardId(LibraryMaterialId $libraryCardId): Book
     {
         try {
             $qb = $this->createQueryBuilder('book');

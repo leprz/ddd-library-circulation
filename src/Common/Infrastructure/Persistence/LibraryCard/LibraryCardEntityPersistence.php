@@ -13,8 +13,10 @@ use Library\Circulation\Common\Domain\LibraryCard\LibraryCard;
  */
 class LibraryCardEntityPersistence implements LibraryCardPersistenceInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager, private LibraryCardEntityMapper $mapper)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private LibraryCardEntityMapper $mapper
+    )  {
     }
 
     /**

@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Common\Domain\LibraryCard;
 
-use Library\Circulation\Common\Domain\Book\CallNumber;
+use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
 use Library\Circulation\Common\Domain\Patron\PatronId;
-use Library\Circulation\Common\Domain\ValueObject\Date;
+use Library\Circulation\Common\Domain\ReturnConfirmation\ReturnConfirmation;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
-use Library\Circulation\Common\Domain\ValueObject\LibrarianId;
 use Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLendDataInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLoanPolicyInterface;
+use Library\Circulation\UseCase\CirculationMaterialReturn\Domain\CirculationMaterialReturnActionInterface;
+use Library\Circulation\UseCase\CirculationMaterialReturn\Domain\CirculationMaterialReturnDataInterface;
 
 /**
  * @package Library\Circulation\Common\Domain\LibraryCard
  */
 class LibraryCard
 {
-    private LibraryCardId $libraryCardId;
+    private LibraryMaterialId $id;
 
     private ?PatronId $borrowerId;
 
@@ -29,29 +30,74 @@ class LibraryCard
      */
     public function __construct(LibraryCardConstructorParameterInterface $data)
     {
-        $this->libraryCardId = $data->libraryCardId();
+        $this->id = $data->libraryCardId();
         $this->borrowerId = $data->getBorrowerId();
         $this->dueDate = $data->getDueDate();
     }
 
-    public function loan(
+    public function lend(
         LibraryCardLendDataInterface $data,
         DateTime $borrowedAt,
-        LibraryCardLoanPolicyInterface $policy
+        LibraryCardLoanPolicyInterface $policy,
+        LibraryCardLendActionInterface $action
     ): self {
-        $this->borrowerId = $data->getBorrowerId();
+        if ($this->isLent()) {
+            // circulation material is already borrowed
+        }
 
-        $this->dueDate = $policy->calculateLoanDueDate($borrowedAt, $data->getBorrowerType());
+        $policy->assertPatronDoNotViolateFinancialRules($action->getAccountBalance());
 
-        // BookBorrowedEvent
+        $this->lendUntil(
+            $data->getBorrowerId(),
+            $policy->calculateLoanDueDate($borrowedAt, $data->getBorrowerType())
+        );
+
+        // circulation material lent event
         return $this;
     }
 
-    public function return(): void
+    public function return(
+        CirculationMaterialReturnDataInterface $data,
+        CirculationMaterialReturnActionInterface $action
+    ): ReturnConfirmation {
+        if (!$this->isLent()) {
+            // throw circulation material already returned
+        }
+
+        $returnConfirmation = ReturnConfirmation::create(
+            $action->generateNextReturnConfirmationId(),
+            $this->borrowerId,
+            $this->id,
+            $this->dueDate,
+            $data->getReturnedAt(),
+        );
+
+        $this->unlockLoan();
+
+        // CirculationMaterialReturnedEvent
+
+        return $returnConfirmation;
+    }
+
+    private function lendUntil(PatronId $borrowerId, DueDate $dueDate): void
+    {
+        $this->borrowerId = $borrowerId;
+        $this->dueDate = $dueDate;
+    }
+
+    private function unlockLoan(): void
     {
         $this->borrowerId = null;
-
         $this->dueDate = null;
-        // BookReturnedEvent
+    }
+
+    /**
+     * @psalm-assert !null $this->borrowerId
+     * @psalm-assert !null $this->dueDate
+     * @return bool
+     */
+    private function isLent(): bool
+    {
+        return $this->borrowerId !== null && $this->dueDate !== null;
     }
 }

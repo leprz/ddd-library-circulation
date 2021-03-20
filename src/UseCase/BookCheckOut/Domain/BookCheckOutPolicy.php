@@ -44,10 +44,9 @@ class BookCheckOutPolicy implements LibraryCardLoanPolicyInterface
         return new DueDate(
             $borrowedAt->addDays(
                 $this->findPrivilegesForPatronType($patronType)->getLoanPeriodDays()
-            )->asDate()
+            )
         );
     }
-
 
     public function assertPatronDoNotViolateFinancialRules(float $balance): void
     {

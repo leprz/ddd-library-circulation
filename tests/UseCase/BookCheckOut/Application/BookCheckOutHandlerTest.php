@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Tests\UseCase\BookCheckOut\Application;
 
+use Library\Circulation\Common\Application\Date\ClockInterface;
 use Library\Circulation\Common\Application\Persistence\LibraryCardPersistenceInterface;
-use Library\Circulation\Common\Domain\LibraryCard\LibraryCardId;
+use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
 use Library\Circulation\Common\Domain\Patron\PatronId;
 use Library\Circulation\Common\Domain\Patron\PatronType;
 use Library\Circulation\Common\Infrastructure\DataFixtures\ReferenceFixture;
+use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
+use Library\Circulation\Tests\Common\Fake\ClockStub;
 use Library\Circulation\Tests\KernelTestCase;
 use Library\Circulation\UseCase\BookCheckOut\Application\BookCheckOutCommand;
 use Library\Circulation\UseCase\BookCheckOut\Application\BookCheckOutHandler;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
 
 class BookCheckOutHandlerTest extends KernelTestCase
 {
@@ -33,18 +35,22 @@ class BookCheckOutHandlerTest extends KernelTestCase
      */
     public function check_out(): void
     {
-        $this->assertLibraryCardHasBeenSaved();
+//        $this->assertLibraryCardHasBeenSaved();
 
-        ($this->sut)(new BookCheckOutCommand(
-            LibraryCardId::fromString(ReferenceFixture::$LIBRARY_CARD_ID),
-            PatronId::fromString(ReferenceFixture::$PATRON_ID),
-            PatronType::graduateStudent(),
-        ));
+        ($this->sut)(
+            new BookCheckOutCommand(
+                LibraryMaterialId::fromString(ReferenceFixture::$BOOK_ID),
+                PatronId::fromString(ReferenceFixture::$PATRON_ID),
+                PatronType::graduateStudent(),
+            )
+        );
     }
 
     protected function setUp(): void
     {
-        $this->libraryCardPersistenceStub = $this->bindMock(LibraryCardPersistenceInterface::class);
+//        $this->libraryCardPersistenceStub = $this->bindMock(LibraryCardPersistenceInterface::class);
+
+        $this->bindInstance(ClockInterface::class, new ClockStub(DateTimeBuilder::fromString('2020-01-01')));
 
         $this->sut = $this->resolve(BookCheckOutHandler::class);
     }

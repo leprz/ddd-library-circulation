@@ -6,11 +6,11 @@ namespace Library\Circulation\Common\Domain\ValueObject;
 
 class DueDate
 {
-    public function __construct(private Date $date)
+    public function __construct(private DateTime $date)
     {
     }
 
-    public function toDate(): Date
+    public function toDateTime(): DateTime
     {
         return $this->date;
     }

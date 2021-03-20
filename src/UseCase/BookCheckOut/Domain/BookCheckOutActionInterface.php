@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\BookCheckOut\Domain;
 
-interface BookCheckOutActionInterface
+use Library\Circulation\Common\Domain\LibraryCard\LibraryCardLendActionInterface;
+
+interface BookCheckOutActionInterface extends LibraryCardLendActionInterface
 {
     public function getAccountBalance(): float;
 

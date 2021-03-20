@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\BookCheckOut\Application;
 
-use Library\Circulation\Common\Domain\LibraryCard\LibraryCardId;
+use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
 use Library\Circulation\Common\Domain\Patron\PatronId;
 use Library\Circulation\Common\Domain\Patron\PatronType;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutDataInterface;
@@ -15,7 +15,7 @@ use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutDataInterface;
 class BookCheckOutCommand implements BookCheckOutDataInterface
 {
     public function __construct(
-        private LibraryCardId $bookLibraryCardId,
+        private LibraryMaterialId $bookLibraryCardId,
         private PatronId $patronId,
         private PatronType $borrowerType,
     ) {
@@ -31,7 +31,7 @@ class BookCheckOutCommand implements BookCheckOutDataInterface
         return $this->borrowerType;
     }
 
-    public function getBookLibraryCardId(): LibraryCardId
+    public function getBookLibraryCardId(): LibraryMaterialId
     {
         return $this->bookLibraryCardId;
     }

@@ -4,7 +4,7 @@ namespace Library\Circulation\Common\Infrastructure\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Library\Circulation\Common\Domain\LibraryCard\LibraryCardId;
+use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
 use Library\Circulation\Common\Domain\Patron\PatronId;
 use Library\Circulation\Common\Infrastructure\Entity\BookEntity;
 use Library\Circulation\Common\Infrastructure\Entity\PatronEntity;
@@ -19,7 +19,7 @@ class AppFixtures extends Fixture
         );
 
         $this->createBook(
-            ReferenceFixture::$LIBRARY_CARD_ID,
+            ReferenceFixture::$BOOK_ID,
             $manager
         );
 
@@ -39,7 +39,7 @@ class AppFixtures extends Fixture
     private function createBook(string $id, ObjectManager $manager): void
     {
         $book = new BookEntity(
-            LibraryCardId::fromString($id)
+            LibraryMaterialId::fromString($id)
         );
         $manager->persist($book);
 

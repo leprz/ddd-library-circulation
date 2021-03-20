@@ -7,9 +7,9 @@ namespace Library\Circulation\Common\Infrastructure\Entity;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Library\Circulation\Common\Domain\LibraryCard\LibraryCardConstructorParameterInterface;
-use Library\Circulation\Common\Domain\LibraryCard\LibraryCardId;
+use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
 use Library\Circulation\Common\Domain\Patron\PatronId;
-use Library\Circulation\Common\Domain\ValueObject\Date;
+use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
 
 /**
@@ -35,20 +35,20 @@ abstract class LibraryCardEntity implements LibraryCardConstructorParameterInter
     private ?PatronEntity $borrower = null;
 
     /**
-     * @var \Library\Circulation\Common\Domain\ValueObject\Date|null
-     * @ORM\Column(type="date", nullable=true)
+     * @var \Library\Circulation\Common\Domain\ValueObject\DateTime|null
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private ?Date $dueDate = null;
+    private ?DateTime $dueDate = null;
 
-    public function __construct(LibraryCardId $id)
+    public function __construct(LibraryMaterialId $id)
     {
         $this->id = (string)$id;
     }
 
 
-    public function libraryCardId(): LibraryCardId
+    public function libraryCardId(): LibraryMaterialId
     {
-        return LibraryCardId::fromString($this->id);
+        return LibraryMaterialId::fromString($this->id);
     }
 
     public function getBorrowerId(): ?PatronId
@@ -69,7 +69,7 @@ abstract class LibraryCardEntity implements LibraryCardConstructorParameterInter
         return null;
     }
 
-    public function setLibraryCardId(LibraryCardId $libraryCardId): void
+    public function setId(LibraryMaterialId $libraryCardId): void
     {
         $this->id = (string)$libraryCardId;
     }
@@ -86,9 +86,14 @@ abstract class LibraryCardEntity implements LibraryCardConstructorParameterInter
     public function setDueDate(?DueDate $dueDate): void
     {
         if ($dueDate !== null) {
-            $this->dueDate = $dueDate->toDate();
+            $this->dueDate = $dueDate->toDateTime();
         } else {
             $this->dueDate = null;
         }
+    }
+
+    public function getId(): LibraryMaterialId
+    {
+        return LibraryMaterialId::fromString($this->id);
     }
 }

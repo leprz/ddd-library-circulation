@@ -9,7 +9,7 @@ use Library\Circulation\Common\Domain\Book\BookConstructorParameterInterface;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="book")
+ * @ORM\Table(name="library_card__book")
  */
 class BookEntity extends LibraryCardEntity implements BookConstructorParameterInterface
 {
