@@ -16,9 +16,14 @@ use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy;
  */
 class Book extends LibraryMaterial
 {
-    public function __construct(BookConstructorParameterInterface $data, LibraryCard $libraryCard)
+    protected function __construct(BookConstructorParameterInterface $data, LibraryCard $libraryCard)
     {
         $this->libraryCard = $libraryCard;
+    }
+
+    public static function register(LibraryCard $libraryCard): self
+    {
+        return new self(new BookConstructorParameter(), $libraryCard);
     }
 
     public function checkOut(

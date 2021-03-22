@@ -16,7 +16,7 @@ class BooksPrivilegesForUndergraduateStudents extends BooksPrivileges
 
     public function __construct()
     {
-        parent::__construct(PatronType::faculty());
+        parent::__construct(PatronType::undergraduateStudent());
     }
 
     public function getLoanPeriodDays(): int

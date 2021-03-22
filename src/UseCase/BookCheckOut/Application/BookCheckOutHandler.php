@@ -30,7 +30,7 @@ class BookCheckOutHandler
      */
     public function __invoke(BookCheckOutCommand $command): void
     {
-        $book = $this->bookRepository->getByLibraryCardId($command->getBookLibraryCardId());
+        $book = $this->bookRepository->getByLibraryCardId($command->getLibraryMaterialId());
 
         $this->libraryCardPersistence->save(
             $book->checkOut($command, $this->clock->now(), $this->bookCheckOutAction, $this->bookCheckOutPolicy)

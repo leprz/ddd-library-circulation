@@ -15,7 +15,7 @@ use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutDataInterface;
 class BookCheckOutCommand implements BookCheckOutDataInterface
 {
     public function __construct(
-        private LibraryMaterialId $bookLibraryCardId,
+        private LibraryMaterialId $libraryMaterialId,
         private PatronId $patronId,
         private PatronType $borrowerType,
     ) {
@@ -31,8 +31,8 @@ class BookCheckOutCommand implements BookCheckOutDataInterface
         return $this->borrowerType;
     }
 
-    public function getBookLibraryCardId(): LibraryMaterialId
+    public function getLibraryMaterialId(): LibraryMaterialId
     {
-        return $this->bookLibraryCardId;
+        return $this->libraryMaterialId;
     }
 }

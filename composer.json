@@ -23,7 +23,9 @@
         "symfony/yaml": "5.2.*"
     },
     "require-dev": {
+        "behat/behat": "^3.8",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "friends-of-behat/symfony-extension": "^2.0",
         "roave/security-advisories": "dev-master",
         "symfony/phpunit-bridge": "^5.2"
     },

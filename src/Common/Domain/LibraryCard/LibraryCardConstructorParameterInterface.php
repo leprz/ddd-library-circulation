@@ -13,7 +13,7 @@ use Library\Circulation\Common\Domain\ValueObject\DueDate;
  */
 interface LibraryCardConstructorParameterInterface
 {
-    public function libraryCardId(): LibraryMaterialId;
+    public function libraryMaterialId(): LibraryMaterialId;
 
     public function getBorrowerId(): ?PatronId;
 

@@ -28,11 +28,16 @@ class LibraryCard
     /**
      * @param \Library\Circulation\Common\Domain\LibraryCard\LibraryCardConstructorParameterInterface
      */
-    public function __construct(LibraryCardConstructorParameterInterface $data)
+    protected function __construct(LibraryCardConstructorParameterInterface $data)
     {
-        $this->id = $data->libraryCardId();
+        $this->id = $data->libraryMaterialId();
         $this->borrowerId = $data->getBorrowerId();
         $this->dueDate = $data->getDueDate();
+    }
+
+    public static function register(LibraryMaterialId $libraryMaterialId): self
+    {
+        return new self(new LibraryCardConstructorParameter($libraryMaterialId));
     }
 
     public function lend(
@@ -99,5 +104,15 @@ class LibraryCard
     private function isLent(): bool
     {
         return $this->borrowerId !== null && $this->dueDate !== null;
+    }
+
+    protected function getDueDate(): DueDate
+    {
+        return $this->dueDate;
+    }
+
+    protected function getBorrowerId(): ?PatronId
+    {
+        return $this->borrowerId;
     }
 }

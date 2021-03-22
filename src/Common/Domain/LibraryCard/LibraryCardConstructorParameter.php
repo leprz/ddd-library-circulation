@@ -4,31 +4,42 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Common\Domain\LibraryCard;
 
-use Library\Circulation\Common\Domain\Book\CallNumber;
 use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
 use Library\Circulation\Common\Domain\Patron\PatronId;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
 
 class LibraryCardConstructorParameter implements LibraryCardConstructorParameterInterface
 {
-    public function libraryCardId(): LibraryMaterialId
+    private ?PatronId $borrowerId = null;
+    private ?DueDate $dueDate = null;
+
+    public function __construct(
+        private LibraryMaterialId $libraryMaterialId,
+    ) {
+    }
+
+    public function libraryMaterialId(): LibraryMaterialId
     {
-        // TODO: Implement libraryCardId() method.
+        return $this->libraryMaterialId;
     }
 
     public function getBorrowerId(): ?PatronId
     {
-        // TODO: Implement getBorrowerId() method.
+        return $this->borrowerId;
     }
 
     public function getDueDate(): ?DueDate
     {
-        // TODO: Implement getDueDate() method.
+        return $this->dueDate;
     }
 
-    public function getBookCallNumber(): CallNumber
+    public function setBorrowerId(?PatronId $borrowerId): void
     {
-        // TODO: Implement getBookCallNumber() method.
+        $this->borrowerId = $borrowerId;
     }
 
+    public function setDueDate(?DueDate $dueDate): void
+    {
+        $this->dueDate = $dueDate;
+    }
 }

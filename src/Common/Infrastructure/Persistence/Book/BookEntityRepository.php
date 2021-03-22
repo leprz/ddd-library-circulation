@@ -62,4 +62,9 @@ class BookEntityRepository implements BookRepositoryInterface
             // TODO Convert Exception
         }
     }
+
+    public function getByISBN(): Book
+    {
+        // TODO: Implement getByISBN() method.
+    }
 }

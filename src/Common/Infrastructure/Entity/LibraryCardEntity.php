@@ -46,7 +46,7 @@ abstract class LibraryCardEntity implements LibraryCardConstructorParameterInter
     }
 
 
-    public function libraryCardId(): LibraryMaterialId
+    public function libraryMaterialId(): LibraryMaterialId
     {
         return LibraryMaterialId::fromString($this->id);
     }
