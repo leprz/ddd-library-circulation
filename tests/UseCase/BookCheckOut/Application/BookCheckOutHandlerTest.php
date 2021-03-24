@@ -19,15 +19,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class BookCheckOutHandlerTest extends KernelTestCase
 {
-    /**
-     * @var \Library\Circulation\UseCase\BookCheckOut\Application\BookCheckOutHandler
-     */
-    private BookCheckOutHandler $sut;
+
 
     /**
      * @var \Library\Circulation\Common\Application\Persistence\LibraryCardPersistenceInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private MockObject|LibraryCardPersistenceInterface $libraryCardPersistenceStub;
+
 
     /**
      * @test

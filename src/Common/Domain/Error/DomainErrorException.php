@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Common\Domain\Error;
 
-use Exception;
+use ErrorException;
 
-class DomainErrorException extends Exception
+class DomainErrorException extends ErrorException
 {
 
 }

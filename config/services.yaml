@@ -40,3 +40,7 @@ services:
         public: true
     Library\Circulation\UseCase\CirculationMaterialReturn\Application\CirculationMaterialReturnHandler:
         public: true
+    Library\Circulation\Common\Financial\Application\PatronFinancialServiceInterface:
+        alias: Library\Circulation\Common\Financial\Infrastructure\PatronFinancialService
+        public: true
+

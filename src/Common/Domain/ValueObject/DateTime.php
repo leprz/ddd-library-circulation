@@ -13,4 +13,12 @@ abstract class DateTime
     abstract public function addDays(int $getLoanPeriodDays): self;
 
     abstract public function asDate(): Date;
+
+    abstract public function isBeforeOrEqual(DateTime $dateTime): bool;
+
+    abstract public function isAfterOrEqual(DateTime $dateTime): bool;
+
+    abstract public function equals(DateTime $dateTime): bool;
+
+    abstract protected function getDate(): mixed;
 }

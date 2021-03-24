@@ -46,4 +46,24 @@ class DateTimeAdapter extends DomainDateTime implements DateTimeBuilderInterface
     {
         return new DateAdapter($this->dateTime);
     }
+
+    public function isBeforeOrEqual(DomainDateTime $dateTime): bool
+    {
+        return $this->dateTime->isBeforeOrEqual($dateTime->getDate());
+    }
+
+    public function isAfterOrEqual(DomainDateTime $dateTime): bool
+    {
+        return $this->dateTime->isAfterOrEqual($dateTime->getDate());
+    }
+
+    public function equals(DomainDateTime $dateTime): bool
+    {
+        return $this->dateTime->isEqual($dateTime->getDate());
+    }
+
+    protected function getDate(): DateTime
+    {
+        return $this->dateTime;
+    }
 }

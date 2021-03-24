@@ -55,6 +55,19 @@ class PatronType
         return new self(self::STAFF);
     }
 
+    public static function fromString(string $patronType): self
+    {
+        return match ($patronType) {
+            self::FACULTY => self::faculty(),
+            self::GRADUATE_STUDENT => self::graduateStudent(),
+            self::UNDERGRADUATE_STUDENT => self::undergraduateStudent(),
+            self::STAFF => self::staff(),
+            default => throw new \InvalidArgumentException(
+                sprintf('Unknown patron type [%s]', $patronType)
+            )
+        };
+    }
+
     public function equals(PatronType $patronType): bool
     {
         return $this->type === $patronType->type;

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Tests\Behat;
 
-use Behat\Behat\Tester\Exception\PendingException;
+use ErrorException;
 use Library\Circulation\Common\Domain\LibraryCard\LibraryCard;
 use Library\Circulation\Common\Domain\Patron\PatronId;
 use Library\Circulation\Common\Domain\Patron\PatronType;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
+use Library\Circulation\Common\Financial\Application\PatronFinancialServiceInterface;
 use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
+use Library\Circulation\Tests\Behat\Exception\ExpectedErrorHasNotBeenThrown;
 use Library\Circulation\Tests\Common\TestData\BookMother;
 use Library\Circulation\Tests\Common\TestData\LibraryCardMother;
 use Library\Circulation\Tests\Common\TestData\PatronMother;
@@ -17,21 +19,24 @@ use Library\Circulation\UseCase\BookCheckOut\Application\BookCheckOutCommand;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutActionInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class BookContext extends BehavioralTestCase
 {
-    /**
-     * @var \Library\Circulation\Tests\Common\TestData\BookMother
-     */
     private BookMother $book;
     private LibraryCard $libraryCard;
     private DateTime $borrowedAt;
     private PatronId $myId;
+    private ?ErrorException $error = null;
+    private BookCheckOutActionInterface $bookCheckOutAction;
+    private BookCheckOutPolicy $bookCheckOutPolicy;
+    private PatronFinancialServiceInterface|MockObject $patronFinancialServiceMock;
 
-    public function __construct(
-        private BookCheckOutActionInterface $bookCheckOutAction,
-        private BookCheckOutPolicy $bookCheckOutPolicy
-    ) {
+    protected function setUp(): void
+    {
+        $this->patronFinancialServiceMock = $this->bindMock(PatronFinancialServiceInterface::class);
+        $this->bookCheckOutPolicy = $this->resolve(BookCheckOutPolicy::class);
+        $this->bookCheckOutAction = $this->resolve(BookCheckOutActionInterface::class);
     }
 
     /**
@@ -43,44 +48,27 @@ class BookContext extends BehavioralTestCase
     }
 
     /**
-     * @When /^Me as a Graduate student check out this book$/
+     * @When /^Me as a (.*) check out this book$/
      */
-    public function meAsAGraduateStudentCheckOutThisBook(): void
-    {
-        $this->checkOutAs(PatronType::graduateStudent());
-    }
-
-    /**
-     * @When /^Me as a undergraduate student check out this book$/
-     */
-    public function meAsAUndergraduateStudentCheckOutThisBook(): void
-    {
-        $this->checkOutAs(PatronType::undergraduateStudent());
-    }
-
-    /**
-     * @When /^Me as a faculty check out this book$/
-     */
-    public function meAsAFacultyCheckOutThisBook(): void
-    {
-        $this->checkOutAs(PatronType::faculty());
-    }
-
-    private function checkOutAs(PatronType $patronType): void
+    public function meAsACheckOutThisBook(string $patronType): void
     {
         $this->borrowedAt = DateTimeBuilder::fromString('2020-01-01 10:00');
         $this->myId = PatronMother::default();
 
-        $this->libraryCard = $this->book->checkOut(
-            new BookCheckOutCommand(
-                BookMother::default(),
-                $this->myId,
-                $patronType
-            ),
-            $this->borrowedAt,
-            $this->bookCheckOutAction,
-            $this->bookCheckOutPolicy
-        );
+        try {
+            $this->libraryCard = $this->book->checkOut(
+                new BookCheckOutCommand(
+                    BookMother::default(),
+                    $this->myId,
+                    PatronType::fromString($patronType)
+                ),
+                $this->borrowedAt,
+                $this->bookCheckOutAction,
+                $this->bookCheckOutPolicy
+            );
+        } catch (ErrorException $error) {
+            $this->error = $error;
+        }
     }
 
     /**
@@ -88,20 +76,45 @@ class BookContext extends BehavioralTestCase
      */
     public function thisBookIsBorrowedByMe(): void
     {
-        Assert::assertEquals(
-            $this->myId,
-            LibraryCardMother::readBorrowerId($this->libraryCard)
+        Assert::assertTrue(
+            $this->myId->equals(LibraryCardMother::readBorrowerId($this->libraryCard)),
         );
     }
 
     /**
-     * @Given /^I got (\d+) days to return this book$/
+     * @Given /^I got (.*) to return this book$/
+     * @param int $daysUntilDueDate
      */
-    public function iGotDaysToReturnThisBook(int $daysUntilDueDate): void
+    public function iGotToReturnThisBook(int $daysUntilDueDate): void
     {
-        Assert::assertEquals(
-            $this->borrowedAt->addDays($daysUntilDueDate),
-            LibraryCardMother::readDueDate($this->libraryCard)->toDateTime()
+        Assert::assertTrue(
+            $this->borrowedAt->addDays($daysUntilDueDate)->equals(
+                LibraryCardMother::readDueDate($this->libraryCard)->toDateTime()
+            ),
         );
+    }
+
+    /**
+     * @Then /^I see error says "([^"]*)"$/
+     */
+    public function iSeeErrorSays(string $errorMessage)
+    {
+        if (!$this->error) {
+            ExpectedErrorHasNotBeenThrown::throw();
+        }
+
+        Assert::assertSame(
+            $this->error->getMessage(),
+            $errorMessage
+        );
+    }
+
+    /**
+     * @Given /^My balance is ([-]?\$\d+)$/
+     */
+    public function patronBalanceIs(string $balance)
+    {
+        $balance = (float)filter_var($balance, FILTER_SANITIZE_NUMBER_FLOAT);
+        $this->patronFinancialServiceMock->method('getBalanceFor')->willReturn($balance);
     }
 }

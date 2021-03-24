@@ -50,7 +50,9 @@ class LibraryCard
             // circulation material is already borrowed
         }
 
-        $policy->assertPatronDoNotViolateFinancialRules($action->getAccountBalance());
+        $policy->assertPatronDoNotViolateFinancialRules(
+            $action->getAccountBalance($data->getBorrowerId())
+        );
 
         $this->lendUntil(
             $data->getBorrowerId(),

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Library\Circulation\UseCase\BookCheckOut\Domain;
 
 use Library\Circulation\Common\Application\Exception\InvalidArgumentException;
+use Library\Circulation\Common\Domain\Book\Error\FinancialRulesViolationErrorException;
 use Library\Circulation\Common\Domain\Book\Privilege\BooksPrivileges;
 use Library\Circulation\Common\Domain\Book\Privilege\BooksPrivilegesForFaculty;
 use Library\Circulation\Common\Domain\Book\Privilege\BooksPrivilegesForGraduateStudents;
@@ -48,10 +49,14 @@ class BookCheckOutPolicy implements LibraryCardLoanPolicyInterface
         );
     }
 
+    /**
+     * @param float $balance
+     * @throws \Library\Circulation\Common\Domain\Book\Error\FinancialRulesViolationErrorException
+     */
     public function assertPatronDoNotViolateFinancialRules(float $balance): void
     {
         if ($balance < 0) {
-            // TODO throw Error
+            throw FinancialRulesViolationErrorException::balanceIsToLow();
         }
     }
 

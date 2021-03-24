@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Tests;
 
+use LogicException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 
@@ -20,11 +21,12 @@ class KernelTestCase extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
             self::bootKernel();
         }
 
+        /** @var T $instance */
         if ($instance = self::$container->get($interface)) {
             return $instance;
         }
 
-        throw new \LogicException(sprintf('Service [%s] does not exist.', $interface));
+        throw new LogicException(sprintf('Service [%s] does not exist.', $interface));
     }
 
     /**
@@ -46,17 +48,24 @@ class KernelTestCase extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
      */
     protected function bindMock(string $interface): MockObject
     {
-        $stub = $this->createStub($interface);
-        $this->bindInstance($interface, $stub);
-        return $stub;
+        $mock = $this->createMock($interface);
+        $this->bindInstance($interface, $mock);
+
+        return $mock;
     }
 
-    protected function bindInstance(string $id, object $stub): void
+    /**
+     * @template T
+     * @param class-string<T> $id The interface to bind
+     * @param object $instance
+     * @return T The resolved instance
+     */
+    protected function bindInstance(string $id, object $instance): void
     {
         if (!self::$booted) {
             self::bootKernel();
         }
 
-        self::$container->set($id, $stub);
+        self::$container->set($id, $instance);
     }
 }
