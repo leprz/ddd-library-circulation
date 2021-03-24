@@ -21,13 +21,13 @@ class LibraryCardMother extends LibraryCard
         return new LibraryCard($constructor);
     }
 
-    public static function borrowed(): LibraryCard
+    public static function borrowed(PatronId $patronId): LibraryCard
     {
         $constructor = new LibraryCardConstructorParameter(
             LibraryMaterialId::fromString('5F5D4F7F-5E12-4BA2-8C04-EABB7E537FD3')
         );
 
-        $constructor->setBorrowerId(PatronMother::default());
+        $constructor->setBorrowerId($patronId);
         $constructor->setDueDate(new DueDate(DateTimeBuilder::fromString('2020-01-01')));
 
         return new LibraryCard($constructor);

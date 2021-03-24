@@ -7,6 +7,7 @@ namespace Library\Circulation\Tests\Common\TestData;
 use Library\Circulation\Common\Domain\Book\Book;
 use Library\Circulation\Common\Domain\Book\BookConstructorParameter;
 use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
+use Library\Circulation\Common\Domain\Patron\PatronId;
 use Library\Circulation\Common\Infrastructure\DataFixtures\ReferenceFixture;
 
 class BookMother extends Book
@@ -24,11 +25,11 @@ class BookMother extends Book
         );
     }
 
-    public static function notAvailable(): self
+    public static function borrowedByNotDefaultPatron(): self
     {
         return new self(
             new BookConstructorParameter(),
-            LibraryCardMother::borrowed()
+            LibraryCardMother::borrowed(PatronMother::notDefault())
         );
     }
 }

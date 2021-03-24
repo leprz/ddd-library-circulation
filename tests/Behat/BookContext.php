@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Tests\Behat;
 
+use Behat\Behat\Tester\Exception\PendingException;
 use ErrorException;
 use Library\Circulation\Common\Domain\LibraryCard\LibraryCard;
 use Library\Circulation\Common\Domain\Patron\PatronId;
@@ -11,6 +12,7 @@ use Library\Circulation\Common\Domain\Patron\PatronType;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Financial\Application\PatronFinancialServiceInterface;
 use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
+use Library\Circulation\Core\Satistics\Application\Persistence\PatronBorrowStatisticsRepositoryInterface;
 use Library\Circulation\Tests\Behat\Exception\ExpectedErrorHasNotBeenThrown;
 use Library\Circulation\Tests\Common\TestData\BookMother;
 use Library\Circulation\Tests\Common\TestData\LibraryCardMother;
@@ -31,10 +33,39 @@ class BookContext extends BehavioralTestCase
     private BookCheckOutActionInterface $bookCheckOutAction;
     private BookCheckOutPolicy $bookCheckOutPolicy;
     private PatronFinancialServiceInterface|MockObject $patronFinancialServiceMock;
+    /**
+     * @var \Library\Circulation\Core\Satistics\Application\Persistence\PatronBorrowStatisticsRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private MockObject|PatronBorrowStatisticsRepositoryInterface $patronBorrowStatisticsRepositoryMock;
+
+    /**
+     * @Given /^I got not overdue (.*)$/
+     */
+    public function iGotNotOverdue(int $borrowedBooksCount): void
+    {
+        $this->patronBorrowStatisticsRepositoryMock->method('countBorrowedBy')->willReturn($borrowedBooksCount);
+    }
+
+    /**
+     * @Given /^There is not available book$/
+     */
+    public function thereIsNotAvailableBook(): void
+    {
+        $this->book = BookMother::borrowedByNotDefaultPatron();
+    }
+
+    /**
+     * @Given /^I got (.*) that are overdue$/
+     */
+    public function iGotThatAreOverdue(int $overdueBooksCount): void
+    {
+        $this->patronBorrowStatisticsRepositoryMock->method('countBorrowedOverdueBy')->willReturn($overdueBooksCount);
+    }
 
     protected function setUp(): void
     {
         $this->patronFinancialServiceMock = $this->bindMock(PatronFinancialServiceInterface::class);
+        $this->patronBorrowStatisticsRepositoryMock =$this->bindMock(PatronBorrowStatisticsRepositoryInterface::class);
         $this->bookCheckOutPolicy = $this->resolve(BookCheckOutPolicy::class);
         $this->bookCheckOutAction = $this->resolve(BookCheckOutActionInterface::class);
     }
@@ -97,22 +128,21 @@ class BookContext extends BehavioralTestCase
     /**
      * @Then /^I see error says "([^"]*)"$/
      */
-    public function iSeeErrorSays(string $errorMessage)
+    public function iSeeErrorSays(string $errorMessage): void
     {
         if (!$this->error) {
-            ExpectedErrorHasNotBeenThrown::throw();
+            throw ExpectedErrorHasNotBeenThrown::forExpectedMessage($errorMessage);
         }
 
-        Assert::assertSame(
-            $this->error->getMessage(),
-            $errorMessage
-        );
+        if ($this->error->getMessage() !== $errorMessage) {
+            throw ExpectedErrorHasNotBeenThrown::gotActualMessageInstead($this->error->getMessage());
+        }
     }
 
     /**
      * @Given /^My balance is ([-]?\$\d+)$/
      */
-    public function patronBalanceIs(string $balance)
+    public function patronBalanceIs(string $balance): void
     {
         $balance = (float)filter_var($balance, FILTER_SANITIZE_NUMBER_FLOAT);
         $this->patronFinancialServiceMock->method('getBalanceFor')->willReturn($balance);

@@ -11,7 +11,7 @@ interface BookCheckOutActionInterface extends LibraryCardLendActionInterface
 {
     public function getAccountBalance(PatronId $patronId): float;
 
-    public function getAlreadyBorrowedBooksNumber(): int;
+    public function getAlreadyBorrowedItemsNumber(PatronId $patronId): int;
 
-    public function getAlreadyOverdueBooksNumber(): int;
+    public function getAlreadyOverdueItemsNumber(PatronId $patronId): int;
 }

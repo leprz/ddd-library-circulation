@@ -26,6 +26,15 @@ class Book extends LibraryMaterial
         return new self(new BookConstructorParameter(), $libraryCard);
     }
 
+    /**
+     * @param \Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutDataInterface $data
+     * @param \Library\Circulation\Common\Domain\ValueObject\DateTime $checkOutAt
+     * @param \Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutActionInterface $action
+     * @param \Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy $policy
+     * @return \Library\Circulation\Common\Domain\LibraryCard\LibraryCard
+     * @throws \Library\Circulation\Common\Domain\Book\Error\BorrowLimitExceededErrorException
+     * @throws \Library\Circulation\Common\Domain\LibraryCard\Error\ItemAlreadyBorrowedErrorException
+     */
     public function checkOut(
         BookCheckOutDataInterface $data,
         DateTime $checkOutAt,
@@ -34,8 +43,8 @@ class Book extends LibraryMaterial
     ): LibraryCard {
         $policy->assertPatronHasReachedItemsLimit(
             $data->getBorrowerType(),
-            $action->getAlreadyBorrowedBooksNumber(),
-            $action->getAlreadyOverdueBooksNumber()
+            $action->getAlreadyBorrowedItemsNumber($data->getBorrowerId()),
+            $action->getAlreadyOverdueItemsNumber($data->getBorrowerId())
         );
 
         return $this->libraryCard->lend($data, $checkOutAt, $policy, $action);

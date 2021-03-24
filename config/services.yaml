@@ -43,4 +43,6 @@ services:
     Library\Circulation\Common\Financial\Application\PatronFinancialServiceInterface:
         alias: Library\Circulation\Common\Financial\Infrastructure\PatronFinancialService
         public: true
+    Library\Circulation\Core\Satistics\Application\Persistence\PatronBorrowStatisticsRepositoryInterface:
+        public: true
 

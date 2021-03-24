@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Common\Domain\LibraryCard;
 
+use Library\Circulation\Common\Domain\LibraryCard\Error\ItemAlreadyBorrowedErrorException;
 use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
 use Library\Circulation\Common\Domain\Patron\PatronId;
 use Library\Circulation\Common\Domain\ReturnConfirmation\ReturnConfirmation;
@@ -40,6 +41,14 @@ class LibraryCard
         return new self(new LibraryCardConstructorParameter($libraryMaterialId));
     }
 
+    /**
+     * @param \Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLendDataInterface $data
+     * @param \Library\Circulation\Common\Domain\ValueObject\DateTime $borrowedAt
+     * @param \Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLoanPolicyInterface $policy
+     * @param \Library\Circulation\Common\Domain\LibraryCard\LibraryCardLendActionInterface $action
+     * @return self
+     * @throws \Library\Circulation\Common\Domain\LibraryCard\Error\ItemAlreadyBorrowedErrorException
+     */
     public function lend(
         LibraryCardLendDataInterface $data,
         DateTime $borrowedAt,
@@ -47,7 +56,11 @@ class LibraryCard
         LibraryCardLendActionInterface $action
     ): self {
         if ($this->isLent()) {
-            // circulation material is already borrowed
+            if ($this->isAlreadyLentToTheSameBorrower($data->getBorrowerId())) {
+                return $this;
+            }
+
+            throw ItemAlreadyBorrowedErrorException::create();
         }
 
         $policy->assertPatronDoNotViolateFinancialRules(
@@ -67,8 +80,8 @@ class LibraryCard
         CirculationMaterialReturnDataInterface $data,
         CirculationMaterialReturnActionInterface $action
     ): ReturnConfirmation {
-        if (!$this->isLent()) {
-            // throw circulation material already returned
+        if ($this->isAlreadyReturned()) {
+            return $action->getLastReturnConfirmationForItem($this->id, $this->borrowerId);
         }
 
         $returnConfirmation = ReturnConfirmation::create(
@@ -84,6 +97,11 @@ class LibraryCard
         // CirculationMaterialReturnedEvent
 
         return $returnConfirmation;
+    }
+
+    private function isAlreadyReturned(): bool
+    {
+        return !$this->isLent();
     }
 
     private function lendUntil(PatronId $borrowerId, DueDate $dueDate): void
@@ -116,5 +134,14 @@ class LibraryCard
     protected function getBorrowerId(): ?PatronId
     {
         return $this->borrowerId;
+    }
+
+    /**
+     * @param \Library\Circulation\Common\Domain\Patron\PatronId $borrowerId
+     * @return bool
+     */
+    protected function isAlreadyLentToTheSameBorrower(PatronId $borrowerId): bool
+    {
+        return $this->borrowerId->equals($borrowerId);
     }
 }

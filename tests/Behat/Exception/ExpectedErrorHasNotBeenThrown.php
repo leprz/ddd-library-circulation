@@ -8,11 +8,17 @@ use Exception;
 
 class ExpectedErrorHasNotBeenThrown extends Exception
 {
-    /**
-     * @throws \Library\Circulation\Tests\Behat\Exception\ExpectedErrorHasNotBeenThrown
-     */
-    public static function throw(): void
+    public static function forExpectedMessage(string $expectedMessage): self
     {
-        throw new self("Expected error has not been thrown");
+        return new self(
+            sprintf("Expected error [%s] has not been thrown", $expectedMessage)
+        );
+    }
+
+    public static function gotActualMessageInstead(string $actualMessage): self
+    {
+        return new self(
+            sprintf("Actual message [%s] is not the same as expected", $actualMessage)
+        );
     }
 }

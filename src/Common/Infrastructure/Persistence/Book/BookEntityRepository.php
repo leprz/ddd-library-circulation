@@ -10,13 +10,15 @@ use Doctrine\ORM\NoResultException;
 use Library\Circulation\Common\Application\Persistence\BookRepositoryInterface;
 use Library\Circulation\Common\Domain\Book\Book;
 use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
+use Library\Circulation\Common\Domain\Patron\PatronId;
 use Library\Circulation\Common\Infrastructure\Entity\BookEntity;
+use Library\Circulation\Core\Satistics\Application\Persistence\PatronBorrowStatisticsRepositoryInterface;
 use Library\SharedKernel\Infrastructure\Persistence\QueryBuilderTrait;
 
 /**
  * @package Library\Circulation\Common\Infrastructure\Persistence\Book
  */
-class BookEntityRepository implements BookRepositoryInterface
+class BookEntityRepository implements BookRepositoryInterface, PatronBorrowStatisticsRepositoryInterface
 {
     use QueryBuilderTrait;
 
@@ -66,5 +68,17 @@ class BookEntityRepository implements BookRepositoryInterface
     public function getByISBN(): Book
     {
         // TODO: Implement getByISBN() method.
+    }
+
+    public function countBorrowedBy(PatronId $patronId): int
+    {
+        // TODO: Implement countBorrowedBy() method.
+        return 0;
+    }
+
+    public function countBorrowedOverdueBy(PatronId $patronId): int
+    {
+        // TODO: Implement countBorrowedOverdueBy() method.
+        return 0;
     }
 }
