@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Tests\Behat;
 
+use Behat\Behat\Context\Context;
 use ErrorException;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
@@ -13,6 +14,7 @@ use Library\Circulation\Core\Patron\Domain\PatronId;
 use Library\Circulation\Core\Patron\Domain\PatronType;
 use Library\Circulation\Core\Satistics\Application\PatronBorrowStatisticsRepositoryInterface;
 use Library\Circulation\Tests\Behat\Exception\ExpectedErrorHasNotBeenThrown;
+use Library\Circulation\Tests\BehavioralTestCase;
 use Library\Circulation\Tests\Common\TestData\BookMother;
 use Library\Circulation\Tests\Common\TestData\LibraryCardMother;
 use Library\Circulation\Tests\Common\TestData\PatronMother;
@@ -22,7 +24,7 @@ use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class BookContext extends BehavioralTestCase
+class BookContext extends BehavioralTestCase implements Context
 {
     private BookMother $book;
     private LibraryCard $libraryCard;
@@ -39,6 +41,7 @@ class BookContext extends BehavioralTestCase
 
     /**
      * @Given /^I got not overdue (.*)$/
+     * @param int $borrowedBooksCount
      */
     public function iGotNotOverdue(int $borrowedBooksCount): void
     {
@@ -55,6 +58,7 @@ class BookContext extends BehavioralTestCase
 
     /**
      * @Given /^I got (.*) that are overdue$/
+     * @param int $overdueBooksCount
      */
     public function iGotThatAreOverdue(int $overdueBooksCount): void
     {
@@ -79,6 +83,7 @@ class BookContext extends BehavioralTestCase
 
     /**
      * @When /^Me as a (.*) check out this book$/
+     * @param string $patronType
      */
     public function meAsACheckOutThisBook(string $patronType): void
     {
@@ -92,9 +97,9 @@ class BookContext extends BehavioralTestCase
                     $this->myId,
                     PatronType::fromString($patronType)
                 ),
-                $this->borrowedAt,
                 $this->bookCheckOutAction,
-                $this->bookCheckOutPolicy
+                $this->bookCheckOutPolicy,
+                $this->borrowedAt,
             );
         } catch (ErrorException $error) {
             $this->error = $error;
@@ -126,6 +131,8 @@ class BookContext extends BehavioralTestCase
 
     /**
      * @Then /^I see error says "([^"]*)"$/
+     * @param string $errorMessage
+     * @throws \Library\Circulation\Tests\Behat\Exception\ExpectedErrorHasNotBeenThrown
      */
     public function iSeeErrorSays(string $errorMessage): void
     {
@@ -140,6 +147,7 @@ class BookContext extends BehavioralTestCase
 
     /**
      * @Given /^My balance is ([-]?\$\d+)$/
+     * @param string $balance
      */
     public function patronBalanceIs(string $balance): void
     {

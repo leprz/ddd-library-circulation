@@ -47,4 +47,7 @@ services:
         public: true
     Library\Circulation\Core\LibraryCard\Application\LibraryCardPersistenceInterface:
         public: true
+    Library\Circulation\Core\Satistics\Application\PatronBorrowStatisticsRepositoryInterface:
+        public: true
+
 

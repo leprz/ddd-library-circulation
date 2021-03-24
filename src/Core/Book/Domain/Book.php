@@ -28,18 +28,18 @@ class Book extends LibraryMaterial
 
     /**
      * @param \Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutDataInterface $data
-     * @param \Library\Circulation\Common\Domain\ValueObject\DateTime $checkOutAt
      * @param \Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutActionInterface $action
      * @param \Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy $policy
+     * @param \Library\Circulation\Common\Domain\ValueObject\DateTime $checkOutAt
      * @return \Library\Circulation\Core\LibraryCard\Domain\LibraryCard
      * @throws \Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException
      * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\ItemAlreadyBorrowedErrorException
      */
     public function checkOut(
         BookCheckOutDataInterface $data,
-        DateTime $checkOutAt,
         BookCheckOutActionInterface $action,
-        BookCheckOutPolicy $policy
+        BookCheckOutPolicy $policy,
+        DateTime $checkOutAt,
     ): LibraryCard {
         $policy->assertPatronHasReachedItemsLimit(
             $data->getBorrowerType(),
