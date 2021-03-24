@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\PatronRegister\Application;
 
-use Library\Circulation\Common\Domain\Patron\PatronId;
-use Library\Circulation\Common\Domain\Patron\PatronType;
+use Library\Circulation\Core\Patron\Domain\PatronId;
+use Library\Circulation\Core\Patron\Domain\PatronType;
 use Library\Circulation\UseCase\PatronRegister\Domain\PatronRegisterDataInterface;
 
 /**

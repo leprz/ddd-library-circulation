@@ -4,10 +4,10 @@ namespace Library\Circulation\Common\Infrastructure\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
-use Library\Circulation\Common\Domain\Patron\PatronId;
-use Library\Circulation\Common\Infrastructure\Entity\BookEntity;
-use Library\Circulation\Common\Infrastructure\Entity\PatronEntity;
+use Library\Circulation\Core\Book\Infrastructure\BookEntity;
+use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
+use Library\Circulation\Core\Patron\Domain\PatronId;
+use Library\Circulation\Core\Patron\Infrastructure\PatronEntity;
 
 class AppFixtures extends Fixture
 {

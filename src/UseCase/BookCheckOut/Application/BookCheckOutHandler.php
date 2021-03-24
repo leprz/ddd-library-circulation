@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Library\Circulation\UseCase\BookCheckOut\Application;
 
 use Library\Circulation\Common\Application\Date\ClockInterface;
-use Library\Circulation\Common\Application\Persistence\BookRepositoryInterface;
-use Library\Circulation\Common\Application\Persistence\LibraryCardPersistenceInterface;
+use Library\Circulation\Core\Book\Application\BookRepositoryInterface;
+use Library\Circulation\Core\LibraryCard\Application\LibraryCardPersistenceInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutActionInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy;
 

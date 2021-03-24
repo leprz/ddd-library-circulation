@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\BookCheckOut\Domain;
 
-use Library\Circulation\Common\Domain\LibraryCard\LibraryCardLendActionInterface;
-use Library\Circulation\Common\Domain\Patron\PatronId;
+use Library\Circulation\Core\LibraryCard\Domain\LibraryCardLendActionInterface;
+use Library\Circulation\Core\Patron\Domain\PatronId;
 
 interface BookCheckOutActionInterface extends LibraryCardLendActionInterface
 {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Tests\Common\TestData;
 
-use Library\Circulation\Common\Domain\LibraryCard\LibraryCard;
-use Library\Circulation\Common\Domain\LibraryCard\LibraryCardConstructorParameter;
-use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
-use Library\Circulation\Common\Domain\Patron\PatronId;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
 use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
+use Library\Circulation\Core\LibraryCard\Domain\LibraryCard;
+use Library\Circulation\Core\LibraryCard\Domain\LibraryCardConstructorParameter;
+use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
+use Library\Circulation\Core\Patron\Domain\PatronId;
 
 class LibraryCardMother extends LibraryCard
 {

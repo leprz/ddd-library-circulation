@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\CirculationMaterialReturn\Domain;
 
-use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
-use Library\Circulation\Common\Domain\Patron\PatronId;
-use Library\Circulation\Common\Domain\ReturnConfirmation\ReturnConfirmation;
-use Library\Circulation\Common\Domain\ReturnConfirmation\ReturnConfirmationId;
+use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
+use Library\Circulation\Core\Patron\Domain\PatronId;
+use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmation;
+use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmationId;
 
 /**
  * @package Library\Circulation\UseCase\CirculationMaterialReturn\Domain

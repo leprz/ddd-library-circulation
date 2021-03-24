@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Library\Circulation\UseCase\BookCheckOut\Domain;
 
 use Library\Circulation\Common\Application\Exception\InvalidArgumentException;
-use Library\Circulation\Common\Domain\Book\Error\BorrowLimitExceededErrorException;
-use Library\Circulation\Common\Domain\Book\Privilege\BooksPrivileges;
-use Library\Circulation\Common\Domain\Book\Privilege\BooksPrivilegesForFaculty;
-use Library\Circulation\Common\Domain\Book\Privilege\BooksPrivilegesForGraduateStudents;
-use Library\Circulation\Common\Domain\Book\Privilege\BooksPrivilegesForUndergraduateStudents;
-use Library\Circulation\Common\Domain\LibraryCard\Error\FinancialRulesViolationErrorException;
-use Library\Circulation\Common\Domain\Patron\PatronType;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
+use Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException;
+use Library\Circulation\Core\Book\Domain\Privilege\BooksPrivileges;
+use Library\Circulation\Core\Book\Domain\Privilege\BooksPrivilegesForFaculty;
+use Library\Circulation\Core\Book\Domain\Privilege\BooksPrivilegesForGraduateStudents;
+use Library\Circulation\Core\Book\Domain\Privilege\BooksPrivilegesForUndergraduateStudents;
+use Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException;
+use Library\Circulation\Core\Patron\Domain\PatronType;
 
 class BookCheckOutPolicy implements LibraryCardLoanPolicyInterface
 {
     /**
-     * @var \Library\Circulation\Common\Domain\Book\Privilege\BooksPrivileges[]
+     * @var \Library\Circulation\Core\Book\Domain\Privilege\BooksPrivileges[]
      */
     private array $booksPrivileges = [];
 
@@ -52,7 +52,7 @@ class BookCheckOutPolicy implements LibraryCardLoanPolicyInterface
 
     /**
      * @param float $balance
-     * @throws \Library\Circulation\Common\Domain\LibraryCard\Error\FinancialRulesViolationErrorException
+     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException
      */
     public function assertPatronDoNotViolateFinancialRules(float $balance): void
     {
@@ -62,10 +62,10 @@ class BookCheckOutPolicy implements LibraryCardLoanPolicyInterface
     }
 
     /**
-     * @param \Library\Circulation\Common\Domain\Patron\PatronType $patronType
+     * @param \Library\Circulation\Core\Patron\Domain\PatronType $patronType
      * @param int $alreadyBorrowedBooksNumber
      * @param int $alreadyOverdueBooksNumber
-     * @throws \Library\Circulation\Common\Domain\Book\Error\BorrowLimitExceededErrorException
+     * @throws \Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException
      */
     public function assertPatronHasReachedItemsLimit(
         PatronType $patronType,

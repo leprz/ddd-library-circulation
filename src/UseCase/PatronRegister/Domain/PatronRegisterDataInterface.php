@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\PatronRegister\Domain;
 
-use Library\Circulation\Common\Domain\Patron\PatronConstructorParameterInterface;
+use Library\Circulation\Core\Patron\Domain\PatronConstructorParameterInterface;
 
 /**
  * @package Library\Circulation\UseCase\PatronRegister\Domain

@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\BookCheckOut\Application;
 
-use Library\Circulation\Common\Application\Persistence\BookRepositoryInterface;
-use Library\Circulation\Common\Domain\Patron\PatronId;
-use Library\Circulation\Common\Financial\Application\PatronFinancialServiceInterface;
-use Library\Circulation\Core\Satistics\Application\Persistence\PatronBorrowStatisticsRepositoryInterface;
+use Library\Circulation\Core\Finance\Application\FinanceServiceInterface;
+use Library\Circulation\Core\Patron\Domain\PatronId;
+use Library\Circulation\Core\Satistics\Application\PatronBorrowStatisticsRepositoryInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutActionInterface;
 
 class BookCheckOutAction implements BookCheckOutActionInterface
 {
     public function __construct(
-        private PatronFinancialServiceInterface $financialService,
+        private FinanceServiceInterface $financialService,
         private PatronBorrowStatisticsRepositoryInterface $borrowStatisticsRepository
     ) {
     }

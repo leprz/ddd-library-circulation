@@ -32,17 +32,19 @@ services:
 
     Library\Circulation\UseCase\BookCheckOut\Application\BookCheckOutHandler:
         public: true
-    Library\Circulation\Common\Infrastructure\Persistence\LibraryCard\LibraryCardEntityPersistence: ~
-    Library\Circulation\Common\Application\Persistence\LibraryCardPersistenceInterface:
-        alias: Library\Circulation\Common\Infrastructure\Persistence\LibraryCard\LibraryCardEntityPersistence
+    Library\Circulation\Core\LibraryCard\Infrastructure\LibraryCardEntityPersistence: ~
+    Library\Circulation\Core\LibraryCard\LibraryCardPersistenceInterface:
+        alias: Library\Circulation\Core\LibraryCard\Infrastructure\LibraryCardEntityPersistence
         public: true
     Library\Circulation\Common\Application\Date\ClockInterface:
         public: true
     Library\Circulation\UseCase\CirculationMaterialReturn\Application\CirculationMaterialReturnHandler:
         public: true
-    Library\Circulation\Common\Financial\Application\PatronFinancialServiceInterface:
-        alias: Library\Circulation\Common\Financial\Infrastructure\PatronFinancialService
+    Library\Circulation\Core\Finance\Application\FinanceServiceInterface:
+        alias: Library\Circulation\Core\Finance\Infrastructure\FinanceService
         public: true
     Library\Circulation\Core\Satistics\Application\Persistence\PatronBorrowStatisticsRepositoryInterface:
+        public: true
+    Library\Circulation\Core\LibraryCard\Application\LibraryCardPersistenceInterface:
         public: true
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\CirculationMaterialReturn\Application;
 
-use Library\Circulation\Common\Domain\LibraryMaterial\LibraryMaterialId;
-use Library\Circulation\Common\Domain\Patron\PatronId;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
+use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
+use Library\Circulation\Core\Patron\Domain\PatronId;
 use Library\Circulation\UseCase\CirculationMaterialReturn\Domain\CirculationMaterialReturnDataInterface;
 
 /**

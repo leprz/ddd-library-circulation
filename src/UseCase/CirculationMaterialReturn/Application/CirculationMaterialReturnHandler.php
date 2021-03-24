@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\CirculationMaterialReturn\Application;
 
-use Library\Circulation\Common\Application\Persistence\LibraryCardPersistenceInterface;
-use Library\Circulation\Common\Application\Persistence\LibraryCardRepositoryInterface;
-use Library\Circulation\Common\Application\Persistence\ReturnConfirmation\ReturnConfirmationPersistenceInterface;
+use Library\Circulation\Core\LibraryCard\Application\LibraryCardPersistenceInterface;
+use Library\Circulation\Core\LibraryCard\Application\LibraryCardRepositoryInterface;
+use Library\Circulation\Core\ReturnConfirmation\Application\ReturnConfirmationPersistenceInterface;
 use Library\Circulation\UseCase\CirculationMaterialReturn\Domain\CirculationMaterialReturnActionInterface;
 
 /**

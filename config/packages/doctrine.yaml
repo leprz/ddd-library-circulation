@@ -16,6 +16,6 @@ doctrine:
             App:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Common/Infrastructure/Entity'
-                prefix: 'Library\Circulation\Common\Infrastructure\Entity'
+                dir: '%kernel.project_dir%/src/Core'
+                prefix: 'Library\Circulation\Core'
                 alias: App

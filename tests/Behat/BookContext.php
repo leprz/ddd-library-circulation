@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Tests\Behat;
 
-use Behat\Behat\Tester\Exception\PendingException;
 use ErrorException;
-use Library\Circulation\Common\Domain\LibraryCard\LibraryCard;
-use Library\Circulation\Common\Domain\Patron\PatronId;
-use Library\Circulation\Common\Domain\Patron\PatronType;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
-use Library\Circulation\Common\Financial\Application\PatronFinancialServiceInterface;
 use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
-use Library\Circulation\Core\Satistics\Application\Persistence\PatronBorrowStatisticsRepositoryInterface;
+use Library\Circulation\Core\Finance\Application\FinanceServiceInterface;
+use Library\Circulation\Core\LibraryCard\Domain\LibraryCard;
+use Library\Circulation\Core\Patron\Domain\PatronId;
+use Library\Circulation\Core\Patron\Domain\PatronType;
+use Library\Circulation\Core\Satistics\Application\PatronBorrowStatisticsRepositoryInterface;
 use Library\Circulation\Tests\Behat\Exception\ExpectedErrorHasNotBeenThrown;
 use Library\Circulation\Tests\Common\TestData\BookMother;
 use Library\Circulation\Tests\Common\TestData\LibraryCardMother;
@@ -32,9 +31,9 @@ class BookContext extends BehavioralTestCase
     private ?ErrorException $error = null;
     private BookCheckOutActionInterface $bookCheckOutAction;
     private BookCheckOutPolicy $bookCheckOutPolicy;
-    private PatronFinancialServiceInterface|MockObject $patronFinancialServiceMock;
+    private FinanceServiceInterface|MockObject $patronFinancialServiceMock;
     /**
-     * @var \Library\Circulation\Core\Satistics\Application\Persistence\PatronBorrowStatisticsRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Library\Circulation\Core\Satistics\Application\PatronBorrowStatisticsRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private MockObject|PatronBorrowStatisticsRepositoryInterface $patronBorrowStatisticsRepositoryMock;
 
@@ -64,7 +63,7 @@ class BookContext extends BehavioralTestCase
 
     protected function setUp(): void
     {
-        $this->patronFinancialServiceMock = $this->bindMock(PatronFinancialServiceInterface::class);
+        $this->patronFinancialServiceMock = $this->bindMock(FinanceServiceInterface::class);
         $this->patronBorrowStatisticsRepositoryMock =$this->bindMock(PatronBorrowStatisticsRepositoryInterface::class);
         $this->bookCheckOutPolicy = $this->resolve(BookCheckOutPolicy::class);
         $this->bookCheckOutAction = $this->resolve(BookCheckOutActionInterface::class);

@@ -2,8 +2,8 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
-use Library\Circulation\Common\Application\Persistence\BookRepositoryInterface;
-use Library\Circulation\Common\Domain\Book\Book;
+use Library\Circulation\Core\Book\Application\BookRepositoryInterface;
+use Library\Circulation\Core\Book\Domain\Book;
 use Library\Circulation\Tests\Common\TestData\BookMother;
 
 /**
@@ -12,7 +12,7 @@ use Library\Circulation\Tests\Common\TestData\BookMother;
 class FeatureContext implements Context
 {
     /**
-     * @var \Library\Circulation\Common\Domain\Book\Book
+     * @var \Library\Circulation\Core\Book\Domain\Book
      */
     private Book $book;
 

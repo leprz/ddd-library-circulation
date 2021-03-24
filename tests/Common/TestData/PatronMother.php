@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Tests\Common\TestData;
 
-use Library\Circulation\Common\Domain\Patron\PatronId;
 use Library\Circulation\Common\Infrastructure\DataFixtures\ReferenceFixture;
+use Library\Circulation\Core\Patron\Domain\PatronId;
 
 class PatronMother
 {
