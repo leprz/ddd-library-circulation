@@ -57,6 +57,22 @@ class DateTimeAdapter extends DomainDateTime implements DateTimeBuilderInterface
         return $this->dateTime->isAfterOrEqual($dateTime->getDate());
     }
 
+    public function subtractMinutes($minutes): self
+    {
+        return new self($this->dateTime->subMinutes($minutes));
+    }
+
+    public function subtractDays(int $days): self
+    {
+        return new self($this->dateTime->subDays($days));
+    }
+
+    public function addMinutes(int $minutes): self
+    {
+        return new self($this->dateTime->addMinutes($minutes));
+    }
+
+
     public function equals(DomainDateTime $dateTime): bool
     {
         return $this->dateTime->isEqual($dateTime->getDate());

@@ -9,4 +9,5 @@ namespace Library\Circulation\Core\Book\Domain;
  */
 interface BookConstructorParameterInterface
 {
+    public function isForInLibraryUseOnly(): bool;
 }

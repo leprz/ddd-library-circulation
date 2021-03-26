@@ -20,5 +20,11 @@ abstract class DateTime
 
     abstract public function equals(DateTime $dateTime): bool;
 
+    abstract public function subtractMinutes(int $minutes): self;
+
+    abstract public function subtractDays(int $days): self;
+
+    abstract public function addMinutes(int $minutes): self;
+
     abstract protected function getDate(): mixed;
 }

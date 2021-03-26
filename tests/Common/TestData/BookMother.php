@@ -16,19 +16,27 @@ class BookMother extends Book
         return LibraryMaterialId::fromString(ReferenceFixture::$BOOK_ID);
     }
 
-    public static function available(): self
+    public static function available(): Book
     {
         return new self(
-            new BookConstructorParameter(),
+            new BookConstructorParameter(false),
             LibraryCardMother::notBorrowed()
         );
     }
 
-    public static function borrowedByNotDefaultPatron(): self
+    public static function borrowedByNotDefaultPatron(): Book
     {
         return new self(
-            new BookConstructorParameter(),
+            new BookConstructorParameter(false),
             LibraryCardMother::borrowed(PatronMother::notDefault())
+        );
+    }
+
+    public static function forInLibraryUseOnly(): Book
+    {
+        return new self(
+            new BookConstructorParameter(true),
+            LibraryCardMother::borrowed(PatronMother::default())
         );
     }
 }

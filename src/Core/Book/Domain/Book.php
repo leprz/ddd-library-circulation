@@ -18,12 +18,12 @@ class Book extends LibraryMaterial
 {
     protected function __construct(BookConstructorParameterInterface $data, LibraryCard $libraryCard)
     {
-        $this->libraryCard = $libraryCard;
+        parent::__construct($data->isForInLibraryUseOnly(), $libraryCard);
     }
 
-    public static function register(LibraryCard $libraryCard): self
+    public static function register(bool $isForInLibraryUseOnly, LibraryCard $libraryCard): self
     {
-        return new self(new BookConstructorParameter(), $libraryCard);
+        return new self(new BookConstructorParameter($isForInLibraryUseOnly), $libraryCard);
     }
 
     /**
@@ -34,6 +34,7 @@ class Book extends LibraryMaterial
      * @return \Library\Circulation\Core\LibraryCard\Domain\LibraryCard
      * @throws \Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException
      * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\ItemAlreadyBorrowedErrorException
+     * @throws \Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialBorrowErrorException
      */
     public function checkOut(
         BookCheckOutDataInterface $data,
@@ -41,12 +42,6 @@ class Book extends LibraryMaterial
         BookCheckOutPolicy $policy,
         DateTime $checkOutAt,
     ): LibraryCard {
-        $policy->assertPatronHasReachedItemsLimit(
-            $data->getBorrowerType(),
-            $action->getAlreadyBorrowedItemsNumber($data->getBorrowerId()),
-            $action->getAlreadyOverdueItemsNumber($data->getBorrowerId())
-        );
-
-        return $this->libraryCard->lend($data, $checkOutAt, $policy, $action);
+        return $this->lend(true, $data, $policy, $action, $checkOutAt);
     }
 }

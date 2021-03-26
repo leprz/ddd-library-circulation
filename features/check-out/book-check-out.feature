@@ -7,9 +7,8 @@ Feature:
   - Patron has variable loan period days and limits related to his type
   - Patron has no debt and unpaid fees
   - Patron does not exceed the limits of borrowed books (overdue and not overdue)
-#  - The book is not held by another patron at the moment
   - The book is not borrowed by another patron at the moment
-#    TODO
+#  - The book is not held by another patron at the moment
   - The book is not for in-library use only
 
     Scenario Outline: Checking out a book that is available by graduate student
@@ -82,4 +81,8 @@ Feature:
       Given There is not available book
       When Me as a graduate_student check out this book
       Then I see error says "This book is already borrowed."
-
+    
+    Scenario: Checking out a book for in-library use only
+      Given There is book for in-library use only
+      When Me as a graduate_student check out this book
+      Then I see error says "You can borrow this item for in-library use only."

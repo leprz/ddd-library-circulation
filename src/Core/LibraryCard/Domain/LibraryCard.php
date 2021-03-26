@@ -51,9 +51,9 @@ class LibraryCard
      */
     public function lend(
         LibraryCardLendDataInterface $data,
-        DateTime $borrowedAt,
         LibraryCardLoanPolicyInterface $policy,
-        LibraryCardLendActionInterface $action
+        LibraryCardLendActionInterface $action,
+        DateTime $borrowedAt,
     ): self {
         if ($this->isLent()) {
             if ($this->isAlreadyLentToTheSameBorrower($data->getBorrowerId())) {

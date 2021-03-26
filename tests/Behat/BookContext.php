@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Library\Circulation\Tests\Behat;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use ErrorException;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
@@ -63,6 +64,14 @@ class BookContext extends BehavioralTestCase implements Context
     public function iGotThatAreOverdue(int $overdueBooksCount): void
     {
         $this->patronBorrowStatisticsRepositoryMock->method('countBorrowedOverdueBy')->willReturn($overdueBooksCount);
+    }
+
+    /**
+     * @Given /^There is book for in\-library use only$/
+     */
+    public function thereIsBookForInLibraryUseOnly()
+    {
+        $this->book = BookMother::forInLibraryUseOnly();
     }
 
     protected function setUp(): void
