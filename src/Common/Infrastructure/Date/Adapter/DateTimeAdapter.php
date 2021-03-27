@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Library\Circulation\Common\Infrastructure\Date\Adapter;
 
 use Aeon\Calendar\Gregorian\DateTime;
+use Aeon\Calendar\Gregorian\Time;
 use Library\Circulation\Common\Application\Date\Builder\DateTimeBuilderInterface;
 use Library\Circulation\Common\Application\Exception\InvalidArgumentException;
 use Library\Circulation\Common\Domain\ValueObject\Date;
@@ -72,6 +73,14 @@ class DateTimeAdapter extends DomainDateTime implements DateTimeBuilderInterface
         return new self($this->dateTime->addMinutes($minutes));
     }
 
+    public function setTime(int $hour, int $minute, int $second): self
+    {
+        try {
+            return new self($this->dateTime->setTime(new Time($hour, $minute, $second)));
+        } catch (\Aeon\Calendar\Exception\InvalidArgumentException $e) {
+            throw new \Library\Circulation\Common\Domain\Exception\InvalidArgumentException($e->getMessage());
+        }
+    }
 
     public function equals(DomainDateTime $dateTime): bool
     {

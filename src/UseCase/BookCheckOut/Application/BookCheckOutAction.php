@@ -6,14 +6,14 @@ namespace Library\Circulation\UseCase\BookCheckOut\Application;
 
 use Library\Circulation\Core\Finance\Application\FinanceServiceInterface;
 use Library\Circulation\Core\Patron\Domain\PatronId;
-use Library\Circulation\Core\Satistics\Application\PatronBorrowStatisticsRepositoryInterface;
+use Library\Circulation\Core\Satistics\Application\PatronBorrowedBooksStatisticsRepositoryInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutActionInterface;
 
 class BookCheckOutAction implements BookCheckOutActionInterface
 {
     public function __construct(
         private FinanceServiceInterface $financialService,
-        private PatronBorrowStatisticsRepositoryInterface $borrowStatisticsRepository
+        private PatronBorrowedBooksStatisticsRepositoryInterface $borrowStatisticsRepository
     ) {
     }
 

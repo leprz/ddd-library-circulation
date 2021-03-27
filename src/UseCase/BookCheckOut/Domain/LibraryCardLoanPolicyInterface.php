@@ -12,5 +12,21 @@ interface LibraryCardLoanPolicyInterface
 {
     public function calculateLoanDueDate(DateTime $borrowedAt, PatronType $patronType): DueDate;
 
+    /**
+     * @param \Library\Circulation\Core\Patron\Domain\PatronType $patronType
+     * @param int $alreadyBorrowedItemsNumber
+     * @param int $alreadyOverdueItemsNumber
+     * @throws \Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException
+     */
+    public function assertPatronHasReachedItemsLimit(
+        PatronType $patronType,
+        int $alreadyBorrowedItemsNumber,
+        int $alreadyOverdueItemsNumber
+    ): void;
+
+    /**
+     * @param float $balance
+     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException
+     */
     public function assertPatronDoNotViolateFinancialRules(float $balance): void;
 }

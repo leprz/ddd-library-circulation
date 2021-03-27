@@ -21,4 +21,16 @@ class OtherMaterialMother extends OtherMaterial
             LibraryCardMother::notBorrowed()
         );
     }
+
+    public static function game(): OtherMaterial
+    {
+        return new self(
+            new OtherMaterialConstructorParameter(
+                false,
+                'Heroes 3 of might and magic',
+                OtherMaterialType::game()
+            ),
+            LibraryCardMother::notBorrowed()
+        );
+    }
 }

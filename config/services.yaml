@@ -49,5 +49,12 @@ services:
         public: true
     Library\Circulation\Core\Satistics\Application\PatronBorrowStatisticsRepositoryInterface:
         public: true
+    Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialPrivilegeBuilder:
+        public: true
+    Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialCheckOutActionInterface:
+        alias: Library\Circulation\UseCase\OtherMaterialCheckOut\Application\OtherMaterialCheckOutAction
+        public: true
+    Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialCheckOutPolicyBuilder:
+        public: true
 
 

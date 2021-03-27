@@ -25,6 +25,7 @@ abstract class LibraryMaterial
      * @param \Library\Circulation\Common\Domain\ValueObject\DateTime $borrowedAt
      * @return \Library\Circulation\Core\LibraryCard\Domain\LibraryCard
      * @throws \Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException
+     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException
      * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\ItemAlreadyBorrowedErrorException
      * @throws \Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialBorrowErrorException
      */

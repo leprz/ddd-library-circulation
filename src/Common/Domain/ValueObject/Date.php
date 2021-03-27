@@ -9,4 +9,8 @@ abstract class Date
     abstract public function __toString(): string;
 
     abstract public function format(string $format): string;
+
+    abstract public function toDateTime(): DateTime;
+
+    abstract protected function getDate(): mixed;
 }

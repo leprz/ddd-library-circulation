@@ -9,6 +9,7 @@ use Library\Circulation\Core\LibraryCard\Domain\LibraryCard;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterial;
 use Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialCheckOutActionInterface;
 use Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialCheckOutDataInterface;
+use Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialCheckOutPolicyBuilder;
 use Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialPrivilegeBuilder;
 
 /**
@@ -29,7 +30,7 @@ class OtherMaterial extends LibraryMaterial
 
     /**
      * @param \Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialCheckOutDataInterface $data
-     * @param \Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialPrivilegeBuilder $policy
+     * @param \Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialCheckOutPolicyBuilder $policyBuilder
      * @param \Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialCheckOutActionInterface $action
      * @param \Library\Circulation\Common\Domain\ValueObject\DateTime $checkOutAt
      * @return \Library\Circulation\Core\LibraryCard\Domain\LibraryCard
@@ -39,10 +40,10 @@ class OtherMaterial extends LibraryMaterial
      */
     public function checkOut(
         OtherMaterialCheckOutDataInterface $data,
-        OtherMaterialPrivilegeBuilder $policy,
+        OtherMaterialCheckOutPolicyBuilder $policyBuilder,
         OtherMaterialCheckOutActionInterface $action,
         DateTime $checkOutAt
     ): LibraryCard {
-        return $this->lend(true, $data, $policy->forMaterialType($this->type), $action, $checkOutAt);
+        return $this->lend(true, $data, $policyBuilder->getPolicy($this->type), $action, $checkOutAt);
     }
 }

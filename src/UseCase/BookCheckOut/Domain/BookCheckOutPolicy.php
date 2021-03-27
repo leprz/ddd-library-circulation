@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Library\Circulation\UseCase\BookCheckOut\Domain;
 
 use Library\Circulation\Common\Application\Exception\InvalidArgumentException;
+use Library\Circulation\Common\Domain\CheckOut\CheckOutPolicy;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
 use Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException;
@@ -15,7 +16,7 @@ use Library\Circulation\Core\Book\Domain\Privilege\BooksPrivilegesForUndergradua
 use Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException;
 use Library\Circulation\Core\Patron\Domain\PatronType;
 
-class BookCheckOutPolicy implements LibraryCardLoanPolicyInterface
+class BookCheckOutPolicy extends CheckOutPolicy
 {
     /**
      * @var \Library\Circulation\Core\Book\Domain\Privilege\BooksPrivileges[]
@@ -51,34 +52,23 @@ class BookCheckOutPolicy implements LibraryCardLoanPolicyInterface
     }
 
     /**
-     * @param float $balance
-     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException
-     */
-    public function assertPatronDoNotViolateFinancialRules(float $balance): void
-    {
-        if ($balance < 0) {
-            throw FinancialRulesViolationErrorException::balanceIsToLow();
-        }
-    }
-
-    /**
      * @param \Library\Circulation\Core\Patron\Domain\PatronType $patronType
-     * @param int $alreadyBorrowedBooksNumber
-     * @param int $alreadyOverdueBooksNumber
+     * @param int $alreadyBorrowedItemsNumber
+     * @param int $alreadyOverdueItemsNumber
      * @throws \Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException
      */
     public function assertPatronHasReachedItemsLimit(
         PatronType $patronType,
-        int $alreadyBorrowedBooksNumber,
-        int $alreadyOverdueBooksNumber
+        int $alreadyBorrowedItemsNumber,
+        int $alreadyOverdueItemsNumber
     ): void {
         $privileges = $this->findPrivilegesForPatronType($patronType);
 
-        if ($alreadyBorrowedBooksNumber > $privileges->getItemsLimit()) {
+        if ($alreadyBorrowedItemsNumber > $privileges->getItemsLimit()) {
             throw BorrowLimitExceededErrorException::forNotOverdue();
         }
 
-        if ($alreadyOverdueBooksNumber > $privileges->getOverdueItemsLimit()) {
+        if ($alreadyOverdueItemsNumber > $privileges->getOverdueItemsLimit()) {
             throw BorrowLimitExceededErrorException::forOverdue();
         }
     }

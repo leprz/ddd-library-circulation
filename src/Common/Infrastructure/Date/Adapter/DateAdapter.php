@@ -37,6 +37,16 @@ class DateAdapter extends Date implements DateBuilderInterface
         return new self(DateTime::fromString((string)$dateTime));
     }
 
+    public function toDateTime(): \Library\Circulation\Common\Domain\ValueObject\DateTime
+    {
+        return new DateTimeAdapter($this->getDate());
+    }
+
+    protected function getDate(): DateTime
+    {
+        return $this->date;
+    }
+
     /**
      * @param string $date
      * @return \Library\Circulation\Common\Domain\ValueObject\Date

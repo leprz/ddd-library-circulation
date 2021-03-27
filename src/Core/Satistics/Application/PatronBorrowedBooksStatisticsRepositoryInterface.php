@@ -6,7 +6,7 @@ namespace Library\Circulation\Core\Satistics\Application;
 
 use Library\Circulation\Core\Patron\Domain\PatronId;
 
-interface PatronBorrowStatisticsRepositoryInterface
+interface PatronBorrowedBooksStatisticsRepositoryInterface
 {
     public function countBorrowedBy(PatronId $patronId): int;
 

@@ -11,13 +11,13 @@ use Library\Circulation\Core\Book\Application\BookRepositoryInterface;
 use Library\Circulation\Core\Book\Domain\Book;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\Patron\Domain\PatronId;
-use Library\Circulation\Core\Satistics\Application\PatronBorrowStatisticsRepositoryInterface;
+use Library\Circulation\Core\Satistics\Application\PatronBorrowedBooksStatisticsRepositoryInterface;
 use Library\SharedKernel\Infrastructure\Persistence\QueryBuilderTrait;
 
 /**
  * @package Library\Circulation\Core\Book\Infrastructure
  */
-class BookEntityRepository implements BookRepositoryInterface, PatronBorrowStatisticsRepositoryInterface
+class BookEntityRepository implements BookRepositoryInterface, PatronBorrowedBooksStatisticsRepositoryInterface
 {
     use QueryBuilderTrait;
 

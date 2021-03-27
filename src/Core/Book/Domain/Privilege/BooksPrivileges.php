@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Core\Book\Domain\Privilege;
 
+use Library\Circulation\Common\Domain\Privilege\LibraryMaterialPrivilege;
 use Library\Circulation\Core\Patron\Domain\PatronType;
 
-abstract class BooksPrivileges
+abstract class BooksPrivileges extends LibraryMaterialPrivilege
 {
     protected function __construct(private PatronType $patronType)
     {
@@ -18,8 +19,4 @@ abstract class BooksPrivileges
     }
 
     abstract public function getLoanPeriodDays(): int;
-
-    abstract public function getItemsLimit(): int;
-
-    abstract public function getOverdueItemsLimit(): int;
 }

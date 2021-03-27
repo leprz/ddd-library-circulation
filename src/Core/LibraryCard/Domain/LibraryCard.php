@@ -48,6 +48,7 @@ class LibraryCard
      * @param \Library\Circulation\Core\LibraryCard\Domain\LibraryCardLendActionInterface $action
      * @return self
      * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\ItemAlreadyBorrowedErrorException
+     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException
      */
     public function lend(
         LibraryCardLendDataInterface $data,

@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Library\Circulation\Tests\Behat;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use ErrorException;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
+use Library\Circulation\Core\Book\Domain\Book;
 use Library\Circulation\Core\Finance\Application\FinanceServiceInterface;
 use Library\Circulation\Core\LibraryCard\Domain\LibraryCard;
 use Library\Circulation\Core\Patron\Domain\PatronId;
 use Library\Circulation\Core\Patron\Domain\PatronType;
-use Library\Circulation\Core\Satistics\Application\PatronBorrowStatisticsRepositoryInterface;
+use Library\Circulation\Core\Satistics\Application\PatronBorrowedBooksStatisticsRepositoryInterface;
 use Library\Circulation\Tests\Behat\Exception\ExpectedErrorHasNotBeenThrown;
 use Library\Circulation\Tests\BehavioralTestCase;
 use Library\Circulation\Tests\Common\TestData\BookMother;
@@ -25,20 +25,20 @@ use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class BookContext extends BehavioralTestCase implements Context
+class CheckOutContext extends BehavioralTestCase implements Context
 {
-    private BookMother $book;
-    private LibraryCard $libraryCard;
-    private DateTime $borrowedAt;
-    private PatronId $myId;
-    private ?ErrorException $error = null;
+    private Book $book;
+    public LibraryCard $libraryCard;
+    public DateTime $borrowedAt;
+    public PatronId $myId;
+    public ?ErrorException $error = null;
     private BookCheckOutActionInterface $bookCheckOutAction;
     private BookCheckOutPolicy $bookCheckOutPolicy;
     private FinanceServiceInterface|MockObject $patronFinancialServiceMock;
     /**
-     * @var \Library\Circulation\Core\Satistics\Application\PatronBorrowStatisticsRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Library\Circulation\Core\Satistics\Application\PatronBorrowedBooksStatisticsRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    private MockObject|PatronBorrowStatisticsRepositoryInterface $patronBorrowStatisticsRepositoryMock;
+    private MockObject|PatronBorrowedBooksStatisticsRepositoryInterface $patronBorrowStatisticsRepositoryMock;
 
     /**
      * @Given /^I got not overdue (.*)$/
@@ -77,7 +77,7 @@ class BookContext extends BehavioralTestCase implements Context
     protected function setUp(): void
     {
         $this->patronFinancialServiceMock = $this->bindMock(FinanceServiceInterface::class);
-        $this->patronBorrowStatisticsRepositoryMock =$this->bindMock(PatronBorrowStatisticsRepositoryInterface::class);
+        $this->patronBorrowStatisticsRepositoryMock =$this->bindMock(PatronBorrowedBooksStatisticsRepositoryInterface::class);
         $this->bookCheckOutPolicy = $this->resolve(BookCheckOutPolicy::class);
         $this->bookCheckOutAction = $this->resolve(BookCheckOutActionInterface::class);
     }

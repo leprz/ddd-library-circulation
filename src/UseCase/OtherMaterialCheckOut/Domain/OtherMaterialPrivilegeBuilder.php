@@ -6,6 +6,7 @@ namespace Library\Circulation\UseCase\OtherMaterialCheckOut\Domain;
 
 use Library\Circulation\Core\OtherMaterial\Domain\OtherMaterialType;
 use Library\Circulation\Core\OtherMaterial\Domain\Privilege\CalculatorPrivileges;
+use Library\Circulation\Core\OtherMaterial\Domain\Privilege\GamePrivileges;
 use Library\Circulation\Core\OtherMaterial\Domain\Privilege\OtherMaterialPrivileges;
 
 class OtherMaterialPrivilegeBuilder
@@ -16,6 +17,7 @@ class OtherMaterialPrivilegeBuilder
     public function __construct()
     {
         $this->privileges[] = new CalculatorPrivileges();
+        $this->privileges[] = new GamePrivileges();
     }
 
     public function forMaterialType(OtherMaterialType $type): OtherMaterialPrivileges

@@ -22,6 +22,11 @@ class LoanPeriod
         return new self($halfHours * 30, 0, true);
     }
 
+    public static function days(int $days): self
+    {
+        return new self(0, $days, false);
+    }
+
     public function toDueDate(DateTime $now, DateTime $todayEndOfBusiness): DueDate
     {
         if ($this->isBeforeEndOfBusiness) {
