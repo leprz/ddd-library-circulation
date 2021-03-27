@@ -6,7 +6,7 @@ namespace Library\Circulation\Core\LibraryCard\Domain\Error;
 
 use ErrorException;
 
-class ItemAlreadyBorrowedErrorException extends ErrorException
+class LibraryMaterialAlreadyBorrowedErrorException extends ErrorException
 {
     public static function create(): self
     {

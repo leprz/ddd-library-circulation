@@ -6,7 +6,7 @@ namespace Library\Circulation\Core\BusinessHours\Infrastructure;
 
 use Library\Circulation\Common\Domain\ValueObject\Date;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
-use Library\Circulation\Core\BusinessHours\Application\BusinessHoursServiceInterface;
+use Library\Circulation\Core\BusinessHours\Domain\BusinessHoursServiceInterface;
 
 class BusinessHoursService implements BusinessHoursServiceInterface
 {

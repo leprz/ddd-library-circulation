@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\OtherMaterialCheckOut\Domain;
 
-use Library\Circulation\Core\BusinessHours\Application\BusinessHoursServiceInterface;
+use Library\Circulation\Core\BusinessHours\Domain\BusinessHoursServiceInterface;
 use Library\Circulation\Core\OtherMaterial\Domain\OtherMaterialType;
+use Library\Circulation\Core\OtherMaterial\Domain\Privilege\OtherMaterialPrivilegeBuilder;
 
 class OtherMaterialCheckOutPolicyBuilder
 {

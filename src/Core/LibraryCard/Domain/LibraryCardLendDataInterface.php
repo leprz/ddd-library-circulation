@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Library\Circulation\UseCase\BookCheckOut\Domain;
+namespace Library\Circulation\Core\LibraryCard\Domain;
 
 use Library\Circulation\Core\Patron\Domain\PatronId;
-use Library\Circulation\Core\Patron\Domain\PatronIdentity;
 use Library\Circulation\Core\Patron\Domain\PatronType;
 
 interface LibraryCardLendDataInterface

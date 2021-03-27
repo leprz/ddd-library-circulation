@@ -6,12 +6,10 @@ namespace Library\Circulation\Core\LibraryCard\Domain;
 
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
-use Library\Circulation\Core\LibraryCard\Domain\Error\ItemAlreadyBorrowedErrorException;
+use Library\Circulation\Core\LibraryCard\Domain\Error\LibraryMaterialAlreadyBorrowedErrorException;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\Patron\Domain\PatronId;
 use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmation;
-use Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLendDataInterface;
-use Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLoanPolicyInterface;
 use Library\Circulation\UseCase\CirculationMaterialReturn\Domain\CirculationMaterialReturnActionInterface;
 use Library\Circulation\UseCase\CirculationMaterialReturn\Domain\CirculationMaterialReturnDataInterface;
 
@@ -42,12 +40,12 @@ class LibraryCard
     }
 
     /**
-     * @param \Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLendDataInterface $data
+     * @param \Library\Circulation\Core\LibraryCard\Domain\LibraryCardLendDataInterface $data
      * @param \Library\Circulation\Common\Domain\ValueObject\DateTime $borrowedAt
-     * @param \Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLoanPolicyInterface $policy
+     * @param \Library\Circulation\Core\LibraryCard\Domain\LibraryCardLoanPolicyInterface $policy
      * @param \Library\Circulation\Core\LibraryCard\Domain\LibraryCardLendActionInterface $action
      * @return self
-     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\ItemAlreadyBorrowedErrorException
+     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\LibraryMaterialAlreadyBorrowedErrorException
      * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException
      */
     public function lend(
@@ -61,7 +59,7 @@ class LibraryCard
                 return $this;
             }
 
-            throw ItemAlreadyBorrowedErrorException::create();
+            throw LibraryMaterialAlreadyBorrowedErrorException::create();
         }
 
         $policy->assertPatronDoNotViolateFinancialRules(

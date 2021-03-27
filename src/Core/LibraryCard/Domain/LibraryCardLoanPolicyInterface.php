@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Library\Circulation\UseCase\BookCheckOut\Domain;
+namespace Library\Circulation\Core\LibraryCard\Domain;
 
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
@@ -16,7 +16,7 @@ interface LibraryCardLoanPolicyInterface
      * @param \Library\Circulation\Core\Patron\Domain\PatronType $patronType
      * @param int $alreadyBorrowedItemsNumber
      * @param int $alreadyOverdueItemsNumber
-     * @throws \Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException
+     * @throws \Library\Circulation\Core\Book\Domain\Error\ItemsLimitExceededErrorException
      */
     public function assertPatronHasReachedItemsLimit(
         PatronType $patronType,

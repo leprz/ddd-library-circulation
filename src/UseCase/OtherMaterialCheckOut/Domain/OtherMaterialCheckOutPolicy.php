@@ -7,7 +7,8 @@ namespace Library\Circulation\UseCase\OtherMaterialCheckOut\Domain;
 use Library\Circulation\Common\Domain\CheckOut\CheckOutPolicy;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
-use Library\Circulation\Core\BusinessHours\Application\BusinessHoursServiceInterface;
+use Library\Circulation\Core\Book\Domain\Error\ItemsLimitExceededErrorException;
+use Library\Circulation\Core\BusinessHours\Domain\BusinessHoursServiceInterface;
 use Library\Circulation\Core\OtherMaterial\Domain\Privilege\OtherMaterialPrivileges;
 use Library\Circulation\Core\Patron\Domain\PatronType;
 
@@ -34,8 +35,12 @@ class OtherMaterialCheckOutPolicy extends CheckOutPolicy
         int $alreadyBorrowedItemsNumber,
         int $alreadyOverdueItemsNumber
     ): void {
-        if ($alreadyBorrowedItemsNumber === $this->materialPrivileges->get || $alreadyOverdueItemsNumber === 1) {
+        if ($alreadyBorrowedItemsNumber >= $this->materialPrivileges->getItemsLimit()) {
+            throw ItemsLimitExceededErrorException::forNotOverdue();
+        }
 
+        if ($alreadyOverdueItemsNumber >= $this->materialPrivileges->getOverdueItemsLimit()) {
+            throw ItemsLimitExceededErrorException::forOverdue();
         }
     }
 }

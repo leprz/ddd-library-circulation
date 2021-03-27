@@ -27,6 +27,9 @@ class BookCheckOutHandler
     /**
      * @param \Library\Circulation\UseCase\BookCheckOut\Application\BookCheckOutCommand $command
      * @return void
+     * @throws \Library\Circulation\Core\Book\Domain\Error\ItemsLimitExceededErrorException
+     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\LibraryMaterialAlreadyBorrowedErrorException
+     * @throws \Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialNotForCheckOutErrorException
      */
     public function __invoke(BookCheckOutCommand $command): void
     {

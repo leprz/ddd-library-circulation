@@ -32,9 +32,9 @@ class Book extends LibraryMaterial
      * @param \Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy $policy
      * @param \Library\Circulation\Common\Domain\ValueObject\DateTime $checkOutAt
      * @return \Library\Circulation\Core\LibraryCard\Domain\LibraryCard
-     * @throws \Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException
-     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\ItemAlreadyBorrowedErrorException
-     * @throws \Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialBorrowErrorException
+     * @throws \Library\Circulation\Core\Book\Domain\Error\ItemsLimitExceededErrorException
+     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\LibraryMaterialAlreadyBorrowedErrorException
+     * @throws \Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialNotForCheckOutErrorException
      */
     public function checkOut(
         BookCheckOutDataInterface $data,

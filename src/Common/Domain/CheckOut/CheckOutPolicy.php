@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Library\Circulation\Common\Domain\CheckOut;
 
 use Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException;
-use Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLoanPolicyInterface;
+use Library\Circulation\Core\LibraryCard\Domain\LibraryCardLoanPolicyInterface;
 
 abstract class CheckOutPolicy implements LibraryCardLoanPolicyInterface
 {

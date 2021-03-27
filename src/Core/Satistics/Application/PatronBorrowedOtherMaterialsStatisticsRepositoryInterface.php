@@ -11,5 +11,5 @@ interface PatronBorrowedOtherMaterialsStatisticsRepositoryInterface
 {
     public function countBorrowedBy(PatronId $patronId, OtherMaterialType $materialType): int;
 
-    public function countBorrowedOverdueBy(PatronId $patronId): int;
+    public function countBorrowedOverdueBy(PatronId $patronId, OtherMaterialType $materialType): int;
 }

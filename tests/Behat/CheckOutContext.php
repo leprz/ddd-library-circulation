@@ -77,7 +77,9 @@ class CheckOutContext extends BehavioralTestCase implements Context
     protected function setUp(): void
     {
         $this->patronFinancialServiceMock = $this->bindMock(FinanceServiceInterface::class);
-        $this->patronBorrowStatisticsRepositoryMock =$this->bindMock(PatronBorrowedBooksStatisticsRepositoryInterface::class);
+        $this->patronBorrowStatisticsRepositoryMock = $this->bindMock(
+            PatronBorrowedBooksStatisticsRepositoryInterface::class
+        );
         $this->bookCheckOutPolicy = $this->resolve(BookCheckOutPolicy::class);
         $this->bookCheckOutAction = $this->resolve(BookCheckOutActionInterface::class);
     }
@@ -116,7 +118,7 @@ class CheckOutContext extends BehavioralTestCase implements Context
     }
 
     /**
-     * @Then /^This book is borrowed by me$/
+     * @Then /^This material is borrowed by me$/
      */
     public function thisBookIsBorrowedByMe(): void
     {
@@ -126,7 +128,7 @@ class CheckOutContext extends BehavioralTestCase implements Context
     }
 
     /**
-     * @Given /^I got (.*) to return this book$/
+     * @Given /^I got (.*) days to return it$/
      * @param int $daysUntilDueDate
      */
     public function iGotToReturnThisBook(int $daysUntilDueDate): void

@@ -7,9 +7,9 @@ namespace Library\Circulation\Core\LibraryMaterial\Domain;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Core\LibraryCard\Domain\LibraryCard;
 use Library\Circulation\Core\LibraryCard\Domain\LibraryCardLendActionInterface;
-use Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialBorrowErrorException;
-use Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLendDataInterface;
-use Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLoanPolicyInterface;
+use Library\Circulation\Core\LibraryCard\Domain\LibraryCardLendDataInterface;
+use Library\Circulation\Core\LibraryCard\Domain\LibraryCardLoanPolicyInterface;
+use Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialNotForCheckOutErrorException;
 
 abstract class LibraryMaterial
 {
@@ -19,15 +19,15 @@ abstract class LibraryMaterial
 
     /**
      * @param bool $forCheckOut
-     * @param \Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLendDataInterface $data
-     * @param \Library\Circulation\UseCase\BookCheckOut\Domain\LibraryCardLoanPolicyInterface $policy
+     * @param \Library\Circulation\Core\LibraryCard\Domain\LibraryCardLendDataInterface $data
+     * @param \Library\Circulation\Core\LibraryCard\Domain\LibraryCardLoanPolicyInterface $policy
      * @param \Library\Circulation\Core\LibraryCard\Domain\LibraryCardLendActionInterface $action
      * @param \Library\Circulation\Common\Domain\ValueObject\DateTime $borrowedAt
      * @return \Library\Circulation\Core\LibraryCard\Domain\LibraryCard
-     * @throws \Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException
+     * @throws \Library\Circulation\Core\Book\Domain\Error\ItemsLimitExceededErrorException
      * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException
-     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\ItemAlreadyBorrowedErrorException
-     * @throws \Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialBorrowErrorException
+     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\LibraryMaterialAlreadyBorrowedErrorException
+     * @throws \Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialNotForCheckOutErrorException
      */
     protected function lend(
         bool $forCheckOut,
@@ -51,12 +51,12 @@ abstract class LibraryMaterial
 
     /**
      * @return void
-     * @throws \Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialBorrowErrorException
+     * @throws \Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialNotForCheckOutErrorException
      */
     protected function assertCanBeUsedOutsideLibrary(): void
     {
         if ($this->inLibraryUseOnly === true) {
-            throw LibraryMaterialBorrowErrorException::notForOutsideLibraryUse();
+            throw LibraryMaterialNotForCheckOutErrorException::notForOutsideLibraryUse();
         }
     }
 }

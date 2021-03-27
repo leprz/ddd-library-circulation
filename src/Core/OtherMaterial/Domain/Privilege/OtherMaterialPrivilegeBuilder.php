@@ -2,12 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Library\Circulation\UseCase\OtherMaterialCheckOut\Domain;
+namespace Library\Circulation\Core\OtherMaterial\Domain\Privilege;
 
 use Library\Circulation\Core\OtherMaterial\Domain\OtherMaterialType;
-use Library\Circulation\Core\OtherMaterial\Domain\Privilege\CalculatorPrivileges;
-use Library\Circulation\Core\OtherMaterial\Domain\Privilege\GamePrivileges;
-use Library\Circulation\Core\OtherMaterial\Domain\Privilege\OtherMaterialPrivileges;
 
 class OtherMaterialPrivilegeBuilder
 {

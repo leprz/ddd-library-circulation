@@ -6,7 +6,7 @@ namespace Library\Circulation\Core\Book\Domain\Error;
 
 use Library\Circulation\Common\Domain\Error\DomainErrorException;
 
-class BorrowLimitExceededErrorException extends DomainErrorException
+class ItemsLimitExceededErrorException extends DomainErrorException
 {
     public static function forNotOverdue(): self
     {

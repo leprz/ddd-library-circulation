@@ -8,12 +8,11 @@ use Library\Circulation\Common\Application\Exception\InvalidArgumentException;
 use Library\Circulation\Common\Domain\CheckOut\CheckOutPolicy;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
-use Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException;
+use Library\Circulation\Core\Book\Domain\Error\ItemsLimitExceededErrorException;
 use Library\Circulation\Core\Book\Domain\Privilege\BooksPrivileges;
 use Library\Circulation\Core\Book\Domain\Privilege\BooksPrivilegesForFaculty;
 use Library\Circulation\Core\Book\Domain\Privilege\BooksPrivilegesForGraduateStudents;
 use Library\Circulation\Core\Book\Domain\Privilege\BooksPrivilegesForUndergraduateStudents;
-use Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException;
 use Library\Circulation\Core\Patron\Domain\PatronType;
 
 class BookCheckOutPolicy extends CheckOutPolicy
@@ -55,7 +54,7 @@ class BookCheckOutPolicy extends CheckOutPolicy
      * @param \Library\Circulation\Core\Patron\Domain\PatronType $patronType
      * @param int $alreadyBorrowedItemsNumber
      * @param int $alreadyOverdueItemsNumber
-     * @throws \Library\Circulation\Core\Book\Domain\Error\BorrowLimitExceededErrorException
+     * @throws \Library\Circulation\Core\Book\Domain\Error\ItemsLimitExceededErrorException
      */
     public function assertPatronHasReachedItemsLimit(
         PatronType $patronType,
@@ -65,11 +64,11 @@ class BookCheckOutPolicy extends CheckOutPolicy
         $privileges = $this->findPrivilegesForPatronType($patronType);
 
         if ($alreadyBorrowedItemsNumber > $privileges->getItemsLimit()) {
-            throw BorrowLimitExceededErrorException::forNotOverdue();
+            throw ItemsLimitExceededErrorException::forNotOverdue();
         }
 
         if ($alreadyOverdueItemsNumber > $privileges->getOverdueItemsLimit()) {
-            throw BorrowLimitExceededErrorException::forOverdue();
+            throw ItemsLimitExceededErrorException::forOverdue();
         }
     }
 }

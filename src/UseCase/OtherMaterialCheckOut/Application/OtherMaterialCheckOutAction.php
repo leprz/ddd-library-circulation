@@ -34,6 +34,6 @@ class OtherMaterialCheckOutAction implements OtherMaterialCheckOutActionInterfac
 
     public function getAlreadyOverdueItemsNumber(PatronId $patronId): int
     {
-        // TODO: Implement getAlreadyOverdueItemsNumber() method.
+        return $this->otherMaterialStatistics->countBorrowedOverdueBy($patronId, $this->materialType);
     }
 }

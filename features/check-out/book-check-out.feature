@@ -14,8 +14,8 @@ Feature:
     Scenario Outline: Checking out a book that is available by graduate student
       Given There is available book
       When Me as a <patron_type> check out this book
-      Then This book is borrowed by me
-      And I got <days> to return this book
+      Then This material is borrowed by me
+      And I got <days> days to return it
 
       Examples:
         | patron_type           | days |
@@ -33,7 +33,7 @@ Feature:
       Given There is available book
       And I got not overdue <borrowed_books>
       When Me as a <patron_type> check out this book
-      Then This book is borrowed by me
+      Then This material is borrowed by me
 
       Examples:
         | patron_type           | borrowed_books |
@@ -69,7 +69,7 @@ Feature:
       Given There is available book
       And I got <overdue_books> that are overdue
       When Me as a <patron_type> check out this book
-      Then This book is borrowed by me
+      Then This material is borrowed by me
 
       Examples:
         | patron_type           | overdue_books |
