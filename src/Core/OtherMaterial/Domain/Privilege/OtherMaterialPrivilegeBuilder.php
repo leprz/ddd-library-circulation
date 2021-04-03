@@ -15,6 +15,7 @@ class OtherMaterialPrivilegeBuilder
     {
         $this->privileges[] = new CalculatorPrivileges();
         $this->privileges[] = new GamePrivileges();
+        $this->privileges[] = new MacVgaAdapterPrivileges();
     }
 
     public function forMaterialType(OtherMaterialType $type): OtherMaterialPrivileges

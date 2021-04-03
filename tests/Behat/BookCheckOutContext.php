@@ -6,32 +6,25 @@ namespace Library\Circulation\Tests\Behat;
 
 use Behat\Behat\Context\Context;
 use ErrorException;
-use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
 use Library\Circulation\Core\Book\Domain\Book;
 use Library\Circulation\Core\Finance\Application\FinanceServiceInterface;
-use Library\Circulation\Core\LibraryCard\Domain\LibraryCard;
-use Library\Circulation\Core\Patron\Domain\PatronId;
 use Library\Circulation\Core\Patron\Domain\PatronType;
 use Library\Circulation\Core\Satistics\Application\PatronBorrowedBooksStatisticsRepositoryInterface;
-use Library\Circulation\Tests\Behat\Exception\ExpectedErrorHasNotBeenThrown;
 use Library\Circulation\Tests\BehavioralTestCase;
 use Library\Circulation\Tests\Common\TestData\BookMother;
-use Library\Circulation\Tests\Common\TestData\LibraryCardMother;
 use Library\Circulation\Tests\Common\TestData\PatronMother;
 use Library\Circulation\UseCase\BookCheckOut\Application\BookCheckOutCommand;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutActionInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy;
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class CheckOutContext extends BehavioralTestCase implements Context
+class BookCheckOutContext extends BehavioralTestCase implements Context
 {
+    use BorrowContext;
+    use ErrorContext;
+
     private Book $book;
-    public LibraryCard $libraryCard;
-    public DateTime $borrowedAt;
-    public PatronId $myId;
-    public ?ErrorException $error = null;
     private BookCheckOutActionInterface $bookCheckOutAction;
     private BookCheckOutPolicy $bookCheckOutPolicy;
     private FinanceServiceInterface|MockObject $patronFinancialServiceMock;
@@ -69,7 +62,7 @@ class CheckOutContext extends BehavioralTestCase implements Context
     /**
      * @Given /^There is book for in\-library use only$/
      */
-    public function thereIsBookForInLibraryUseOnly()
+    public function thereIsBookForInLibraryUseOnly(): void
     {
         $this->book = BookMother::forInLibraryUseOnly();
     }
@@ -114,45 +107,6 @@ class CheckOutContext extends BehavioralTestCase implements Context
             );
         } catch (ErrorException $error) {
             $this->error = $error;
-        }
-    }
-
-    /**
-     * @Then /^This material is borrowed by me$/
-     */
-    public function thisBookIsBorrowedByMe(): void
-    {
-        Assert::assertTrue(
-            $this->myId->equals(LibraryCardMother::readBorrowerId($this->libraryCard)),
-        );
-    }
-
-    /**
-     * @Given /^I got (.*) days to return it$/
-     * @param int $daysUntilDueDate
-     */
-    public function iGotToReturnThisBook(int $daysUntilDueDate): void
-    {
-        Assert::assertTrue(
-            $this->borrowedAt->addDays($daysUntilDueDate)->equals(
-                LibraryCardMother::readDueDate($this->libraryCard)->toDateTime()
-            ),
-        );
-    }
-
-    /**
-     * @Then /^I see error says "([^"]*)"$/
-     * @param string $errorMessage
-     * @throws \Library\Circulation\Tests\Behat\Exception\ExpectedErrorHasNotBeenThrown
-     */
-    public function iSeeErrorSays(string $errorMessage): void
-    {
-        if (!$this->error) {
-            throw ExpectedErrorHasNotBeenThrown::forExpectedMessage($errorMessage);
-        }
-
-        if ($this->error->getMessage() !== $errorMessage) {
-            throw ExpectedErrorHasNotBeenThrown::gotActualMessageInstead($this->error->getMessage());
         }
     }
 

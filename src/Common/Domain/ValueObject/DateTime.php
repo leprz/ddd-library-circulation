@@ -26,5 +26,7 @@ abstract class DateTime
 
     abstract public function addMinutes(int $minutes): self;
 
+    abstract public function setTime(int $hour, int $minute, int $second): self;
+
     abstract protected function getDate(): mixed;
 }

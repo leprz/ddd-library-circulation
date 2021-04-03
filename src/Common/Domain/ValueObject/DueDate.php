@@ -14,4 +14,9 @@ class DueDate
     {
         return $this->dueDate;
     }
+
+    public function isBefore(DateTime $dateTime): bool
+    {
+        return !$this->dueDate->isAfterOrEqual($dateTime);
+    }
 }

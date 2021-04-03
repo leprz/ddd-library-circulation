@@ -7,81 +7,62 @@ namespace Library\Circulation\Tests\Behat;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use ErrorException;
+use Library\Circulation\Common\Domain\OtherMaterialBorrow\OtherMaterialBorrowPolicyBuilder;
 use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
-use Library\Circulation\Core\OtherMaterial\Domain\OtherMaterial;
 use Library\Circulation\Core\Patron\Domain\PatronIdentity;
 use Library\Circulation\Core\Patron\Domain\PatronType;
 use Library\Circulation\Core\Satistics\Application\PatronBorrowedOtherMaterialsStatisticsRepositoryInterface;
 use Library\Circulation\Tests\BehavioralTestCase;
-use Library\Circulation\Tests\Common\TestData\OtherMaterialMother;
 use Library\Circulation\Tests\Common\TestData\PatronMother;
 use Library\Circulation\UseCase\OtherMaterialCheckOut\Application\OtherMaterialCheckOutCommand;
 use Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialCheckOutActionBuilderInterface;
-use Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialCheckOutPolicyBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class OtherMaterialCheckOutContext extends BehavioralTestCase implements Context
 {
-    private OtherMaterial $otherMaterial;
-    private OtherMaterialCheckOutPolicyBuilder $policyBuilder;
+    use OtherMaterialContext;
+    use BorrowContext;
+    private OtherMaterialBorrowPolicyBuilder $policyBuilder;
     private OtherMaterialCheckOutActionBuilderInterface $actionBuilder;
-    private ErrorException $error;
-    private CheckOutContext $checkOutContext;
     private PatronBorrowedOtherMaterialsStatisticsRepositoryInterface|MockObject $otherMaterialBorrowStatisticsMock;
 
     /**
-     * @Given /^There is an calculator$/
-     */
-    public function thereIsAvailableCalculator()
-    {
-        $this->otherMaterial = OtherMaterialMother::calculator();
-    }
-
-    /**
      * @When /^Me as a (.*) check out this material$/
+     * @param string $patronType
      */
-    public function meAsAGraduate_studentCheckOutThisAccessory(string $patronType)
+    public function meAsAGraduate_studentCheckOutThisAccessory(string $patronType): void
     {
         try {
-            $this->checkOutContext->myId = PatronMother::default();
-            $this->checkOutContext->borrowedAt = DateTimeBuilder::fromString('2020-01-01');
-            $this->checkOutContext->libraryCard = $this->otherMaterial->checkOut(
+            $this->myId = PatronMother::default();
+            $this->borrowedAt = DateTimeBuilder::fromString('2020-01-01');
+            $this->libraryCard = $this->otherMaterial->checkOut(
                 new OtherMaterialCheckOutCommand(
                     new PatronIdentity(
-                        $this->checkOutContext->myId,
+                        $this->myId,
                         PatronType::fromString($patronType)
                     )
                 ),
                 $this->policyBuilder,
                 $this->actionBuilder,
-                $this->checkOutContext->borrowedAt
+                $this->borrowedAt
             );
         } catch (ErrorException $error) {
-            $this->checkOutContext->error = $error;
+            $this->error = $error;
         }
-    }
-
-    /** @BeforeScenario */
-    public function before(BeforeScenarioScope $scope)
-    {
-        $environment = $scope->getEnvironment();
-        $this->checkOutContext = $environment->getContext(CheckOutContext::class);
-    }
-
-    /**
-     * @Given /^There is a game$/
-     */
-    public function thereIsAGame()
-    {
-        $this->otherMaterial = OtherMaterialMother::game();
     }
 
     /**
      * @Given /^I got (\d+) not overdue material/
+     * @param int $borrowedMaterialCount
      */
-    public function iGotNotOverdueGames(int $borrowedMaterialCount)
+    public function iGotNotOverdueGames(int $borrowedMaterialCount): void
     {
         $this->otherMaterialBorrowStatisticsMock->method('countBorrowedBy')->willReturn($borrowedMaterialCount);
+    }
+
+    public function getOtherMaterialBorrowStatisticsMock(): MockObject
+    {
+        return $this->otherMaterialBorrowStatisticsMock;
     }
 
     protected function setUp(): void
@@ -89,14 +70,15 @@ class OtherMaterialCheckOutContext extends BehavioralTestCase implements Context
         $this->otherMaterialBorrowStatisticsMock = $this->bindMock(
             PatronBorrowedOtherMaterialsStatisticsRepositoryInterface::class
         );
-        $this->policyBuilder = $this->resolve(OtherMaterialCheckOutPolicyBuilder::class);
+        $this->policyBuilder = $this->resolve(OtherMaterialBorrowPolicyBuilder::class);
         $this->actionBuilder = $this->resolve(OtherMaterialCheckOutActionBuilderInterface::class);
     }
 
     /**
      * @Given /^I got (\d+) overdue material/
+     * @param int $borrowedOverdueMaterialCount
      */
-    public function iGotOverdueGame(int $borrowedOverdueMaterialCount)
+    public function iGotOverdueGame(int $borrowedOverdueMaterialCount): void
     {
         $this->otherMaterialBorrowStatisticsMock->method('countBorrowedOverdueBy')->willReturn(
             $borrowedOverdueMaterialCount

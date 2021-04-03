@@ -47,7 +47,7 @@ services:
         public: true
     Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialPrivilegeBuilder:
         public: true
-    Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialCheckOutPolicyBuilder:
+    Library\Circulation\Common\Domain\OtherMaterialBorrow\OtherMaterialBorrowPolicyBuilder:
         public: true
     Library\Circulation\Core\Satistics\Application\PatronBorrowedBooksStatisticsRepositoryInterface:
         public: true
@@ -58,6 +58,12 @@ services:
         public: true
     Library\Circulation\Core\Satistics\Application\PatronBorrowedOtherMaterialsStatisticsRepositoryInterface:
         alias: Library\Circulation\Core\OtherMaterial\Infrastructure\OtherMaterialEntityRepository
+        public: true
+    Library\Circulation\UseCase\OtherMaterialUseInLibrary\Domain\OtherMaterialUseInLibraryActionBuilderInterface:
+        alias: Library\Circulation\UseCase\OtherMaterialUseInLibrary\Application\OtherMaterialUseInLibraryActionBuilder
+        public: true
+    Library\Circulation\Core\BusinessHours\Domain\BusinessHoursServiceInterface:
+        alias: Library\Circulation\Core\BusinessHours\Infrastructure\BusinessHoursService
         public: true
 
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Library\Circulation\Core\OtherMaterial\Infrastructure;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\OtherMaterial\Application\OtherMaterialRepositoryInterface;
 use Library\Circulation\Core\OtherMaterial\Domain\OtherMaterial;
 use Library\Circulation\Core\OtherMaterial\Domain\OtherMaterialType;
@@ -28,9 +29,9 @@ class OtherMaterialEntityRepository implements OtherMaterialRepositoryInterface,
     }
 
     /**
-     * @return \Library\Circulation\Core\OtherMaterial\Domain\OtherMaterial
+     * @inheridoc;
      */
-    public function getById(): OtherMaterial
+    public function getById(LibraryMaterialId $materialId): OtherMaterial
     {
     }
 

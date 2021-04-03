@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Library\Circulation\UseCase\OtherMaterialCheckOut\Domain;
+namespace Library\Circulation\Common\Domain\OtherMaterialBorrow;
 
 use Library\Circulation\Core\BusinessHours\Domain\BusinessHoursServiceInterface;
 use Library\Circulation\Core\OtherMaterial\Domain\OtherMaterialType;
 use Library\Circulation\Core\OtherMaterial\Domain\Privilege\OtherMaterialPrivilegeBuilder;
+use Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialCheckOutPolicy;
 
-class OtherMaterialCheckOutPolicyBuilder
+class OtherMaterialBorrowPolicyBuilder
 {
     public function __construct(
         private OtherMaterialPrivilegeBuilder $privilegeBuilder,

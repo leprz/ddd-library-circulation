@@ -18,7 +18,6 @@ abstract class LibraryMaterial
     }
 
     /**
-     * @param bool $forCheckOut
      * @param \Library\Circulation\Core\LibraryCard\Domain\LibraryCardLendDataInterface $data
      * @param \Library\Circulation\Core\LibraryCard\Domain\LibraryCardLoanPolicyInterface $policy
      * @param \Library\Circulation\Core\LibraryCard\Domain\LibraryCardLendActionInterface $action
@@ -27,19 +26,13 @@ abstract class LibraryMaterial
      * @throws \Library\Circulation\Core\Book\Domain\Error\ItemsLimitExceededErrorException
      * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException
      * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\LibraryMaterialAlreadyBorrowedErrorException
-     * @throws \Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialNotForCheckOutErrorException
      */
     protected function lend(
-        bool $forCheckOut,
         LibraryCardLendDataInterface $data,
         LibraryCardLoanPolicyInterface $policy,
         LibraryCardLendActionInterface $action,
         DateTime $borrowedAt,
     ): LibraryCard {
-        if ($forCheckOut === true) {
-            $this->assertCanBeUsedOutsideLibrary();
-        }
-
         $policy->assertPatronHasReachedItemsLimit(
             $data->getBorrowerType(),
             $action->getAlreadyBorrowedItemsNumber($data->getBorrowerId()),

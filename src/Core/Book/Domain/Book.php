@@ -35,6 +35,7 @@ class Book extends LibraryMaterial
      * @throws \Library\Circulation\Core\Book\Domain\Error\ItemsLimitExceededErrorException
      * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\LibraryMaterialAlreadyBorrowedErrorException
      * @throws \Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialNotForCheckOutErrorException
+     * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException
      */
     public function checkOut(
         BookCheckOutDataInterface $data,
@@ -42,6 +43,8 @@ class Book extends LibraryMaterial
         BookCheckOutPolicy $policy,
         DateTime $checkOutAt,
     ): LibraryCard {
-        return $this->lend(true, $data, $policy, $action, $checkOutAt);
+        $this->assertCanBeUsedOutsideLibrary();
+
+        return $this->lend($data, $policy, $action, $checkOutAt);
     }
 }

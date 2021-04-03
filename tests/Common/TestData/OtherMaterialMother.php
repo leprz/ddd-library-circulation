@@ -33,4 +33,16 @@ class OtherMaterialMother extends OtherMaterial
             LibraryCardMother::notBorrowed()
         );
     }
+
+    public static function macVgaAdapter(): OtherMaterialMother
+    {
+        return new self(
+            new OtherMaterialConstructorParameter(
+                true,
+                'Mac VGA adapter',
+                OtherMaterialType::macVgaAdapter()
+            ),
+            LibraryCardMother::notBorrowed()
+        );
+    }
 }
