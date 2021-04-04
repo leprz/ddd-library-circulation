@@ -48,7 +48,7 @@ class OtherMaterial extends LibraryMaterial
     ): LibraryCard {
         $this->assertCanBeUsedOutsideLibrary();
 
-        return $this->lend(
+        return $this->lendLibraryCard(
             $data,
             $policyBuilder->getPolicy($this->type),
             $actionBuilder->getAction($this->type),
@@ -72,7 +72,7 @@ class OtherMaterial extends LibraryMaterial
         OtherMaterialUseInLibraryActionBuilderInterface $actionBuilder,
         DateTime $borrowedAt,
     ): LibraryCard {
-        return $this->lend(
+        return $this->lendLibraryCard(
             $data,
             $policyBuilder->getPolicy($this->type),
             $actionBuilder->getAction($this->type),

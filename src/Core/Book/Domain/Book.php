@@ -7,6 +7,11 @@ namespace Library\Circulation\Core\Book\Domain;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Core\LibraryCard\Domain\LibraryCard;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterial;
+use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmation;
+use Library\Circulation\UseCase\BookCheckIn\Domain\BookCheckInActionInterface;
+use Library\Circulation\UseCase\BookCheckIn\Domain\BookCheckInDataInterface;
+use Library\Circulation\UseCase\BookCheckIn\Domain\BookReturnActionInterface;
+use Library\Circulation\UseCase\BookCheckIn\Domain\BookReturnDataInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutActionInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutDataInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy;
@@ -45,6 +50,19 @@ class Book extends LibraryMaterial
     ): LibraryCard {
         $this->assertCanBeUsedOutsideLibrary();
 
-        return $this->lend($data, $policy, $action, $checkOutAt);
+        return $this->lendLibraryCard($data, $policy, $action, $checkOutAt);
+    }
+
+    /**
+     * @param \Library\Circulation\UseCase\BookCheckIn\Domain\BookCheckInDataInterface $data
+     * @param \Library\Circulation\UseCase\BookCheckIn\Domain\BookCheckInActionInterface $action
+     * @return \Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmation
+     */
+    public function checkIn(
+        BookCheckInDataInterface $data,
+        BookCheckInActionInterface $action
+    ): ReturnConfirmation
+    {
+        return $this->returnLibraryCard($data, $action);
     }
 }

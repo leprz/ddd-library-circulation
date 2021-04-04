@@ -42,7 +42,7 @@ class BookEntityRepository implements BookRepositoryInterface, PatronBorrowedBoo
      * @param \Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId $libraryCardId
      * @return \Library\Circulation\Core\Book\Domain\Book
      */
-    public function getByLibraryCardId(LibraryMaterialId $libraryCardId): Book
+    public function getByLibraryMaterialId(LibraryMaterialId $libraryCardId): Book
     {
         try {
             $qb = $this->createQueryBuilder('book');

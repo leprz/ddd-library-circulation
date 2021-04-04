@@ -15,7 +15,7 @@ interface BookRepositoryInterface
     /**
      * @return \Library\Circulation\Core\Book\Domain\Book
      */
-    public function getByLibraryCardId(LibraryMaterialId $libraryCardId): Book;
+    public function getByLibraryMaterialId(LibraryMaterialId $libraryCardId): Book;
 
     public function getByISBN(): Book;
 }

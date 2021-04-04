@@ -33,13 +33,18 @@ class LibraryCardMother extends LibraryCard
         return new LibraryCard($constructor);
     }
 
-    public static function readBorrowerId(LibraryCard $libraryCard): PatronId
+    public static function readBorrowerId(LibraryCard $libraryCard): ?PatronId
     {
         return $libraryCard->getBorrowerId();
     }
 
-    public static function readDueDate(LibraryCard $libraryCard): DueDate
+    public static function readDueDate(LibraryCard $libraryCard): ?DueDate
     {
         return $libraryCard->getDueDate();
+    }
+
+    public static function readIsLent(LibraryCard $libraryCard): bool
+    {
+        return $libraryCard->isLent();
     }
 }

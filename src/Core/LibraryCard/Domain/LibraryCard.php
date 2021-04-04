@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Core\LibraryCard\Domain;
 
+use Library\Circulation\Common\Domain\LibraryCardReturn\LibraryCardReturnActionInterface;
+use Library\Circulation\Common\Domain\LibraryCardReturn\LibraryCardReturnDataInterface;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
 use Library\Circulation\Core\LibraryCard\Domain\Error\LibraryMaterialAlreadyBorrowedErrorException;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\Patron\Domain\PatronId;
 use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmation;
-use Library\Circulation\UseCase\CirculationMaterialReturn\Domain\CirculationMaterialReturnActionInterface;
-use Library\Circulation\UseCase\CirculationMaterialReturn\Domain\CirculationMaterialReturnDataInterface;
 
 /**
  * @package Library\Circulation\Core\LibraryCard\Domain
@@ -76,11 +76,11 @@ class LibraryCard
     }
 
     public function return(
-        CirculationMaterialReturnDataInterface $data,
-        CirculationMaterialReturnActionInterface $action
+        LibraryCardReturnDataInterface $data,
+        LibraryCardReturnActionInterface $action
     ): ReturnConfirmation {
         if ($this->isAlreadyReturned()) {
-            return $action->getLastReturnConfirmationForItem($this->id, $this->borrowerId);
+            return $action->getLastReturnConfirmation($this->id, $this->borrowerId);
         }
 
         $returnConfirmation = ReturnConfirmation::create(
@@ -120,12 +120,12 @@ class LibraryCard
      * @psalm-assert !null $this->dueDate
      * @return bool
      */
-    private function isLent(): bool
+    protected function isLent(): bool
     {
         return $this->borrowerId !== null && $this->dueDate !== null;
     }
 
-    protected function getDueDate(): DueDate
+    protected function getDueDate(): ?DueDate
     {
         return $this->dueDate;
     }

@@ -49,4 +49,9 @@ class ReturnConfirmation
             )
         );
     }
+
+    protected function getBorrowerId(): PatronId
+    {
+        return $this->borrowerId;
+    }
 }

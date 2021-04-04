@@ -44,5 +44,6 @@ class LibraryCardEntityPersistence implements LibraryCardPersistenceInterface
      */
     public function add(LibraryCard $model): void
     {
+        $this->entityManager->persist($this->mapper->mapToNewEntity($model));
     }
 }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Library\Circulation\Core\ReturnConfirmation\Infrastructure;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
+use Library\Circulation\Core\Patron\Domain\PatronId;
 use Library\Circulation\Core\ReturnConfirmation\Application\ReturnConfirmationRepositoryInterface;
 use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmation;
 use Library\SharedKernel\Infrastructure\Persistence\QueryBuilderTrait;
@@ -42,5 +44,10 @@ class ReturnConfirmationEntityRepository implements ReturnConfirmationRepository
      */
     protected function getEntityManager(): EntityManagerInterface
     {
+    }
+
+    public function getLastReturnConfirmation(LibraryMaterialId $id, PatronId $borrowerId): ReturnConfirmation
+    {
+        // TODO: Implement getLastReturnConfirmation() method.
     }
 }

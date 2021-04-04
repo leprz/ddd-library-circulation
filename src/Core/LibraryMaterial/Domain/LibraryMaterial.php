@@ -4,17 +4,35 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Core\LibraryMaterial\Domain;
 
+use Library\Circulation\Common\Domain\LibraryCardReturn\LibraryCardReturnActionInterface;
+use Library\Circulation\Common\Domain\LibraryCardReturn\LibraryCardReturnDataInterface;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Core\LibraryCard\Domain\LibraryCard;
 use Library\Circulation\Core\LibraryCard\Domain\LibraryCardLendActionInterface;
 use Library\Circulation\Core\LibraryCard\Domain\LibraryCardLendDataInterface;
 use Library\Circulation\Core\LibraryCard\Domain\LibraryCardLoanPolicyInterface;
 use Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialNotForCheckOutErrorException;
+use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmation;
 
 abstract class LibraryMaterial
 {
     public function __construct(private bool $inLibraryUseOnly, private LibraryCard $libraryCard)
     {
+    }
+
+    /**
+     * @param \Library\Circulation\Common\Domain\LibraryCardReturn\LibraryCardReturnDataInterface $data
+     * @param \Library\Circulation\Common\Domain\LibraryCardReturn\LibraryCardReturnActionInterface $action
+     * @return \Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmation
+     */
+    protected function returnLibraryCard(
+        LibraryCardReturnDataInterface $data,
+        LibraryCardReturnActionInterface $action
+    ): ReturnConfirmation {
+        $returnConfirmation = $this->libraryCard->return($data, $action);
+        $action->saveLibraryCard($this->libraryCard);
+
+        return $returnConfirmation;
     }
 
     /**
@@ -27,7 +45,7 @@ abstract class LibraryMaterial
      * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException
      * @throws \Library\Circulation\Core\LibraryCard\Domain\Error\LibraryMaterialAlreadyBorrowedErrorException
      */
-    protected function lend(
+    protected function lendLibraryCard(
         LibraryCardLendDataInterface $data,
         LibraryCardLoanPolicyInterface $policy,
         LibraryCardLendActionInterface $action,

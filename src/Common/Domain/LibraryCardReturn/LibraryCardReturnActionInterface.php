@@ -2,22 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Library\Circulation\UseCase\CirculationMaterialReturn\Domain;
+namespace Library\Circulation\Common\Domain\LibraryCardReturn;
 
+use Library\Circulation\Core\LibraryCard\Domain\LibraryCard;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\Patron\Domain\PatronId;
 use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmation;
 use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmationId;
 
 /**
- * @package Library\Circulation\UseCase\CirculationMaterialReturn\Domain
+ * @package Library\Circulation\Common\Domain\LibraryMaterialReturn
  */
-interface CirculationMaterialReturnActionInterface
+interface LibraryCardReturnActionInterface
 {
     public function generateNextReturnConfirmationId(): ReturnConfirmationId;
 
-    public function getLastReturnConfirmationForItem(
+    public function getLastReturnConfirmation(
         LibraryMaterialId $id,
         PatronId $borrowerId
     ): ReturnConfirmation;
+
+    public function saveLibraryCard(LibraryCard $libraryCard): void;
 }

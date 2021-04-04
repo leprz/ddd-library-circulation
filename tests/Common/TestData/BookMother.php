@@ -39,4 +39,12 @@ class BookMother extends Book
             LibraryCardMother::borrowed(PatronMother::default())
         );
     }
+
+    public static function borrowedByDefaultPatron(): BookMother
+    {
+        return new self(
+            new BookConstructorParameter(false),
+            LibraryCardMother::borrowed(PatronMother::default())
+        );
+    }
 }

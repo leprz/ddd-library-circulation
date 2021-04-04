@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Library\Circulation\UseCase\CirculationMaterialReturn\Domain;
+namespace Library\Circulation\Common\Domain\LibraryCardReturn;
 
 class CirculationMaterialReturnedEvent
 {

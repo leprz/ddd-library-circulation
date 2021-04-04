@@ -38,8 +38,6 @@ services:
         public: true
     Library\Circulation\Common\Application\Date\ClockInterface:
         public: true
-    Library\Circulation\UseCase\CirculationMaterialReturn\Application\CirculationMaterialReturnHandler:
-        public: true
     Library\Circulation\Core\Finance\Application\FinanceServiceInterface:
         alias: Library\Circulation\Core\Finance\Infrastructure\FinanceService
         public: true
@@ -50,6 +48,7 @@ services:
     Library\Circulation\Common\Domain\OtherMaterialBorrow\OtherMaterialBorrowPolicyBuilder:
         public: true
     Library\Circulation\Core\Satistics\Application\PatronBorrowedBooksStatisticsRepositoryInterface:
+        alias: Library\Circulation\Core\Book\Infrastructure\BookEntityRepository
         public: true
     Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy:
         public: true
@@ -65,5 +64,9 @@ services:
     Library\Circulation\Core\BusinessHours\Domain\BusinessHoursServiceInterface:
         alias: Library\Circulation\Core\BusinessHours\Infrastructure\BusinessHoursService
         public: true
+    Library\Circulation\UseCase\BookCheckIn\Domain\BookCheckInActionInterface:
+        alias: Library\Circulation\UseCase\BookCheckIn\Application\BookCheckInAction
+        public: true
+
 
 
