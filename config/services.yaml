@@ -67,6 +67,11 @@ services:
     Library\Circulation\UseCase\BookCheckIn\Domain\BookCheckInActionInterface:
         alias: Library\Circulation\UseCase\BookCheckIn\Application\BookCheckInAction
         public: true
-
+    Library\Circulation\Common\Domain\DomainEvent\DomainEventDispatcher:
+        arguments:
+            $listenerProvider: '@Library\Circulation\Common\Domain\DomainEvent\DomainListenerProvider'
+            $eventStore: '@Library\Circulation\Common\Domain\DomainEvent\DomainEventStore'
+    Library\Circulation\Common\Domain\DomainEvent\DomainEventStore:
+        public: true
 
 

@@ -42,6 +42,11 @@ class DateAdapter extends Date implements DateBuilderInterface
         return new DateTimeAdapter($this->getDate());
     }
 
+    public function daysUntil(Date $date): int
+    {
+        return $this->date->until($date->getDate())->distance()->inDays();
+    }
+
     protected function getDate(): DateTime
     {
         return $this->date;

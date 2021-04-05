@@ -6,6 +6,7 @@ namespace Library\Circulation\Core\ReturnConfirmation\Domain;
 
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
+use Library\Circulation\Common\Domain\ValueObject\ReturnDateTime;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\Patron\Domain\PatronId;
 
@@ -18,7 +19,7 @@ class ReturnConfirmation
     private LibraryMaterialId $materialId;
     private PatronId $borrowerId;
     private DueDate $scheduledReturnDate;
-    private DateTime $returnedAt;
+    private ReturnDateTime $returnedAt;
 
     /**
      * @param \Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmationConstructorParameterInterface
@@ -37,7 +38,7 @@ class ReturnConfirmation
         PatronId $borrowerId,
         LibraryMaterialId $materialId,
         DueDate $dueDate,
-        DateTime $returnedAt
+        ReturnDateTime $returnedAt
     ): self {
         return new self(
             new ReturnConfirmationConstructorParameter(

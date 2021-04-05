@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Core\Book\Domain;
 
+use Library\Circulation\Common\Domain\LibraryCardReturn\LibraryCardReturnedEvent;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Core\LibraryCard\Domain\LibraryCard;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterial;
 use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmation;
 use Library\Circulation\UseCase\BookCheckIn\Domain\BookCheckInActionInterface;
 use Library\Circulation\UseCase\BookCheckIn\Domain\BookCheckInDataInterface;
-use Library\Circulation\UseCase\BookCheckIn\Domain\BookReturnActionInterface;
-use Library\Circulation\UseCase\BookCheckIn\Domain\BookReturnDataInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutActionInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutDataInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy;
+use Library\SharedKernel\Domain\Event\Circulation\BookCheckedInOverDueEvent;
 
 /**
  * @package Library\Circulation\Core\Book\Domain
@@ -61,8 +61,30 @@ class Book extends LibraryMaterial
     public function checkIn(
         BookCheckInDataInterface $data,
         BookCheckInActionInterface $action
-    ): ReturnConfirmation
-    {
+    ): ReturnConfirmation {
+        $action->subscribeEvent(
+            LibraryCardReturnedEvent::class,
+            $this->handleOverDueCheckIn($action, $data)
+        );
+
         return $this->returnLibraryCard($data, $action);
+    }
+
+    private function handleOverDueCheckIn(BookCheckInActionInterface $action, BookCheckInDataInterface $data): callable
+    {
+        return function (LibraryCardReturnedEvent $event) use ($action, $data): void {
+            if ($event->hasMaterialBeenReturnedOverDue() &&
+                $event->hasBeenDispatchedFor($data->getLibraryMaterialId())
+            ) {
+                $action->dispatchGlobalEvent(
+                    new BookCheckedInOverDueEvent(
+                        (string)$event->getBorrowerId(),
+                        (string)$event->getMaterialId(),
+                        (string)$event->getOverDueTimePeriod(),
+                    ),
+                    $this
+                );
+            }
+        };
     }
 }

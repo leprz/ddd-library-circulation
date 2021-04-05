@@ -6,6 +6,7 @@ namespace Library\Circulation\Core\ReturnConfirmation\Domain;
 
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
+use Library\Circulation\Common\Domain\ValueObject\ReturnDateTime;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\Patron\Domain\PatronId;
 
@@ -22,5 +23,5 @@ interface ReturnConfirmationConstructorParameterInterface
 
     public function getScheduledReturnDate(): DueDate;
 
-    public function getReturnedAt(): DateTime;
+    public function getReturnedAt(): ReturnDateTime;
 }

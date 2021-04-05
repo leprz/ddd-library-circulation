@@ -6,7 +6,7 @@ namespace Library\Circulation\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-class UnitTestCase extends TestCase
+class IsolatedTestCase extends TestCase
 {
 
 }

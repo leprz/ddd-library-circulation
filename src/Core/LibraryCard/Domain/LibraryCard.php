@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Core\LibraryCard\Domain;
 
+use Library\Circulation\Common\Domain\DomainEvent\DomainBroadcastEvent;
 use Library\Circulation\Common\Domain\LibraryCardReturn\LibraryCardReturnActionInterface;
 use Library\Circulation\Common\Domain\LibraryCardReturn\LibraryCardReturnDataInterface;
+use Library\Circulation\Common\Domain\LibraryCardReturn\LibraryCardReturnedEvent;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
 use Library\Circulation\Core\LibraryCard\Domain\Error\LibraryMaterialAlreadyBorrowedErrorException;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\Patron\Domain\PatronId;
 use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmation;
+use Library\SharedKernel\Domain\Event\Circulation\BookCheckedInOverDueEvent;
 
 /**
  * @package Library\Circulation\Core\LibraryCard\Domain
  */
 class LibraryCard
 {
-    private LibraryMaterialId $id;
+    private LibraryMaterialId $materialId;
 
     private ?PatronId $borrowerId;
 
@@ -29,7 +32,7 @@ class LibraryCard
      */
     protected function __construct(LibraryCardConstructorParameterInterface $data)
     {
-        $this->id = $data->libraryMaterialId();
+        $this->materialId = $data->libraryMaterialId();
         $this->borrowerId = $data->getBorrowerId();
         $this->dueDate = $data->getDueDate();
     }
@@ -75,25 +78,31 @@ class LibraryCard
         return $this;
     }
 
-    public function return(
+    public function finishLoan(
         LibraryCardReturnDataInterface $data,
         LibraryCardReturnActionInterface $action
     ): ReturnConfirmation {
         if ($this->isAlreadyReturned()) {
-            return $action->getLastReturnConfirmation($this->id, $this->borrowerId);
+            return $action->getLastReturnConfirmation($this->materialId, $this->borrowerId);
         }
 
         $returnConfirmation = ReturnConfirmation::create(
             $action->generateNextReturnConfirmationId(),
             $this->borrowerId,
-            $this->id,
+            $this->materialId,
             $this->dueDate,
             $data->getReturnedAt(),
         );
+        
+        $action->dispatchInternalEvent(
+           new LibraryCardReturnedEvent(
+               $this->borrowerId,
+               $this->materialId,
+               $data->getReturnedAt()->getOverDueTimePeriod($this->dueDate)
+           )
+        );
 
         $this->unlockLoan();
-
-        // CirculationMaterialReturnedEvent
 
         return $returnConfirmation;
     }

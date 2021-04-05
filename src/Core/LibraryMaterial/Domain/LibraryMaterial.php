@@ -29,7 +29,7 @@ abstract class LibraryMaterial
         LibraryCardReturnDataInterface $data,
         LibraryCardReturnActionInterface $action
     ): ReturnConfirmation {
-        $returnConfirmation = $this->libraryCard->return($data, $action);
+        $returnConfirmation = $this->libraryCard->finishLoan($data, $action);
         $action->saveLibraryCard($this->libraryCard);
 
         return $returnConfirmation;

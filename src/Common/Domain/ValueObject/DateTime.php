@@ -18,15 +18,23 @@ abstract class DateTime
 
     abstract public function isAfterOrEqual(DateTime $dateTime): bool;
 
+    abstract public function isBefore(DateTime $dateTime): bool;
+
     abstract public function equals(DateTime $dateTime): bool;
 
     abstract public function subtractMinutes(int $minutes): self;
 
     abstract public function subtractDays(int $days): self;
 
+    abstract public function subtractHours(int $hours): self;
+
     abstract public function addMinutes(int $minutes): self;
 
     abstract public function setTime(int $hour, int $minute, int $second): self;
+
+    abstract public function hoursUntil(DateTime $dateTime): int;
+
+    abstract public function minutesUntil(DateTime $dateTime): int;
 
     abstract protected function getDate(): mixed;
 }

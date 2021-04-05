@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\BookCheckIn\Application;
 
+use Library\Circulation\Common\Domain\DomainEvent\DomainBroadcastEvent;
+use Library\Circulation\Common\Domain\DomainEvent\DomainEventBus;
+use Library\Circulation\Common\Domain\DomainEvent\DomainEventDispatcher;
 use Library\Circulation\Core\LibraryCard\Application\LibraryCardPersistenceInterface;
 use Library\Circulation\Core\LibraryCard\Domain\LibraryCard;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
@@ -23,6 +26,7 @@ class BookCheckInAction implements BookCheckInActionInterface
         private ReturnConfirmationPersistenceInterface $returnConfirmationPersistence,
         private ReturnConfirmationRepositoryInterface $returnConfirmationRepository,
         private LibraryCardPersistenceInterface $libraryCardPersistence,
+        private DomainEventBus $eventBus,
     ) {
     }
 
@@ -39,5 +43,25 @@ class BookCheckInAction implements BookCheckInActionInterface
     public function saveLibraryCard(LibraryCard $libraryCard): void
     {
         $this->libraryCardPersistence->save($libraryCard);
+    }
+
+    public function dispatchGlobalEvent(object $event, object $emitter): void
+    {
+        $this->eventBus->dispatch(
+            new DomainBroadcastEvent(
+                $event,
+                $emitter
+            )
+        );
+    }
+
+    public function dispatchInternalEvent(object $event): void
+    {
+        $this->eventBus->dispatch($event);
+    }
+
+    public function subscribeEvent(string $class, callable $callable): void
+    {
+        $this->eventBus->subscribe($class, $callable);
     }
 }

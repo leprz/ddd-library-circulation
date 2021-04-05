@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\DueDate;
+use Library\Circulation\Common\Domain\ValueObject\ReturnDateTime;
 use Library\Circulation\Core\LibraryCard\Infrastructure\LibraryCardEntity;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\Patron\Domain\PatronId;
@@ -93,11 +94,11 @@ class ReturnConfirmationEntity implements ReturnConfirmationConstructorParameter
     }
 
     /**
-     * @param \Library\Circulation\Common\Domain\ValueObject\DateTime $returnedAt
+     * @param \Library\Circulation\Common\Domain\ValueObject\ReturnDateTime $returnedAt
      */
-    public function setReturnedAt(DateTime $returnedAt): void
+    public function setReturnedAt(ReturnDateTime $returnedAt): void
     {
-        $this->returnedAt = $returnedAt;
+        $this->returnedAt = $returnedAt->toDateTime();
     }
 
     public function getReturnConfirmationId(): ReturnConfirmationId
@@ -120,8 +121,8 @@ class ReturnConfirmationEntity implements ReturnConfirmationConstructorParameter
         return new DueDate($this->scheduledReturnDate);
     }
 
-    public function getReturnedAt(): DateTime
+    public function getReturnedAt(): ReturnDateTime
     {
-        return $this->returnedAt;
+        return new ReturnDateTime($this->returnedAt);
     }
 }

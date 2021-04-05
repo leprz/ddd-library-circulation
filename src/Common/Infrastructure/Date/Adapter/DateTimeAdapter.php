@@ -58,6 +58,11 @@ class DateTimeAdapter extends DomainDateTime implements DateTimeBuilderInterface
         return $this->dateTime->isAfterOrEqual($dateTime->getDate());
     }
 
+    public function isBefore(DomainDateTime $dateTime): bool
+    {
+        return $this->dateTime->isBefore($dateTime->getDate());
+    }
+
     public function subtractMinutes($minutes): self
     {
         return new self($this->dateTime->subMinutes($minutes));
@@ -66,6 +71,11 @@ class DateTimeAdapter extends DomainDateTime implements DateTimeBuilderInterface
     public function subtractDays(int $days): self
     {
         return new self($this->dateTime->subDays($days));
+    }
+
+    public function subtractHours(int $hours): self
+    {
+        return new self($this->dateTime->subHours($hours));
     }
 
     public function addMinutes(int $minutes): self
@@ -80,6 +90,16 @@ class DateTimeAdapter extends DomainDateTime implements DateTimeBuilderInterface
         } catch (\Aeon\Calendar\Exception\InvalidArgumentException $e) {
             throw new \Library\Circulation\Common\Domain\Exception\InvalidArgumentException($e->getMessage());
         }
+    }
+
+    public function hoursUntil(DomainDateTime $dateTime): int
+    {
+        return $this->dateTime->distance($dateTime->getDate())->inHours();
+    }
+
+    public function minutesUntil(DomainDateTime $dateTime): int
+    {
+        return $this->dateTime->distance($dateTime->getDate())->inMinutes();
     }
 
     public function equals(DomainDateTime $dateTime): bool

@@ -8,6 +8,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
 use ErrorException;
 use Library\Circulation\Common\Domain\OtherMaterialBorrow\OtherMaterialBorrowPolicyBuilder;
+use Library\Circulation\Common\Domain\ValueObject\Date;
 use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
 use Library\Circulation\Core\BusinessHours\Domain\BusinessHoursServiceInterface;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
@@ -23,17 +24,22 @@ use Library\Circulation\UseCase\OtherMaterialUseInLibrary\Application\OtherMater
 use Library\Circulation\UseCase\OtherMaterialUseInLibrary\Domain\OtherMaterialUseInLibraryActionBuilderInterface;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 
 class UseInLibraryContext extends BehavioralTestCase implements Context
 {
     use BorrowContext;
     use OtherMaterialContext;
+    use CurrentTimeContext;
 
     private OtherMaterialBorrowPolicyBuilder $policyBuilder;
     private OtherMaterialUseInLibraryActionBuilder $actionBuilder;
     private BusinessHoursServiceInterface|MockObject $businessHoursServiceMock;
     private MockObject|PatronBorrowedOtherMaterialsStatisticsRepositoryInterface $otherMaterialBorrowStatisticsMock;
+
+    protected function todayIs(): Date
+    {
+        return $this->borrowedAt->asDate();
+    }
 
     /**
      * @When /^Me as a graduate_student borrow this material for in\-library use$/
@@ -98,17 +104,6 @@ class UseInLibraryContext extends BehavioralTestCase implements Context
     {
         $this->otherMaterial = OtherMaterialMother::macVgaAdapter();
     }
-
-    /**
-     * @Given /^The time is (.*)$/
-     * @param string $time
-     */
-    public function theTimeIs10(string $time): void
-    {
-        [$hour, $minutes] = explode(':', $time);
-        $this->borrowedAt = $this->borrowedAt->setTime((int)$hour, (int)$minutes, 0);
-    }
-
 
     protected function setUp(): void
     {

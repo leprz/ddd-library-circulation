@@ -12,5 +12,7 @@ abstract class Date
 
     abstract public function toDateTime(): DateTime;
 
+    abstract public function daysUntil(Date $date): int;
+
     abstract protected function getDate(): mixed;
 }
