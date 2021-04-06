@@ -47,6 +47,8 @@ class UseInLibraryContext extends BehavioralTestCase implements Context
     public function meAsAGraduate_studentBorrowThisMaterialForInLibraryUse(): void
     {
         try {
+            $this->borrowedAt = $this->now ?? $this->borrowedAt;
+
             $this->libraryCard = $this->otherMaterial->useInLibrary(
                 new OtherMaterialUseInLibraryCommand(
                     LibraryMaterialId::fromString('699DF88D-35FF-4BD6-BBF4-A2BADCD129EE'),

@@ -25,7 +25,7 @@ interface LibraryCardReturnActionInterface
 
     public function saveLibraryCard(LibraryCard $libraryCard): void;
 
-    public function dispatchGlobalEvent(object $event, object $emitter): void;
+    public function dispatchGlobalEvent(object $event, string $emitter): void;
 
     public function dispatchInternalEvent(object $event);
 }

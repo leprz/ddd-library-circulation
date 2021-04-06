@@ -83,7 +83,7 @@ class LibraryCard
         LibraryCardReturnActionInterface $action
     ): ReturnConfirmation {
         if ($this->isAlreadyReturned()) {
-            return $action->getLastReturnConfirmation($this->materialId, $this->borrowerId);
+            return $action->getLastReturnConfirmation($this->materialId, $data->getBorrowerId());
         }
 
         $returnConfirmation = ReturnConfirmation::create(

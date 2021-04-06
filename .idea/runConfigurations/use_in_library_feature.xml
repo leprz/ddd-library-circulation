@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="use-in-library.feature" type="PhpBehatConfigurationType">
+    <BehatRunner file="$PROJECT_DIR$/features/use-in-library/use-in-library.feature" scenario="" scope="File" options="--suite=other_material_in_library_use" />
+    <method v="2" />
+  </configuration>
+</component>

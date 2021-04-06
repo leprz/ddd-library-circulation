@@ -7,6 +7,7 @@ namespace Library\Circulation\UseCase\BookCheckIn\Application;
 use Library\Circulation\Common\Domain\ValueObject\DateTime;
 use Library\Circulation\Common\Domain\ValueObject\ReturnDateTime;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
+use Library\Circulation\Core\Patron\Domain\PatronId;
 use Library\Circulation\UseCase\BookCheckIn\Domain\BookCheckInDataInterface;
 
 /**
@@ -14,7 +15,7 @@ use Library\Circulation\UseCase\BookCheckIn\Domain\BookCheckInDataInterface;
  */
 class BookCheckInCommand implements BookCheckInDataInterface
 {
-    public function __construct(private LibraryMaterialId $materialId, private ReturnDateTime $returnedAt)
+    public function __construct(private LibraryMaterialId $materialId, private PatronId $borrowerId, private ReturnDateTime $returnedAt)
     {
     }
 
@@ -26,5 +27,10 @@ class BookCheckInCommand implements BookCheckInDataInterface
     public function getReturnedAt(): ReturnDateTime
     {
         return $this->returnedAt;
+    }
+
+    public function getBorrowerId(): PatronId
+    {
+        return $this->borrowerId;
     }
 }

@@ -18,16 +18,30 @@ class DomainEventStore implements DomainEventStoreInterface
 
     public function filterByEmitter(string $emitterClass): array
     {
-        return array_map(
-            static function (DomainBroadcastEvent $event): object {
-                return $event->getRealEvent();
-            },
+        return self::extractRealEvents(
             array_filter(
                 $this->events,
                 static function (DomainBroadcastEvent $event) use ($emitterClass): bool {
                     return $event->isEmittedBy($emitterClass);
                 }
             )
+        );
+    }
+
+    public function getAll(): array
+    {
+        return self::extractRealEvents(
+            $this->events
+        );
+    }
+
+    private static function extractRealEvents(array $events): array
+    {
+        return array_map(
+            static function (DomainBroadcastEvent $event): object {
+                return $event->getRealEvent();
+            },
+            $events
         );
     }
 }

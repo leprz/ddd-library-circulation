@@ -11,9 +11,9 @@ class DomainBroadcastEvent implements StoppableEventInterface
     private bool $isPropagationStopped = false;
     private string $emitterClass;
 
-    public function __construct(private object $event, object $emitter)
+    public function __construct(private object $event, string $emitter)
     {
-        $this->emitterClass = $emitter::class;
+        $this->emitterClass = $emitter;
     }
 
     protected function getEmitterClass(): string

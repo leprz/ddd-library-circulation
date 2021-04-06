@@ -7,6 +7,7 @@ namespace Library\Circulation\Core\ReturnConfirmation\Application;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\Patron\Domain\PatronId;
 use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmation;
+use Library\Circulation\Core\ReturnConfirmation\Domain\ReturnConfirmationId;
 
 /**
  * @package Library\Circulation\Common\Application\Persistence\ReturnConfirmation
@@ -19,4 +20,6 @@ interface ReturnConfirmationRepositoryInterface
     public function getById(): ReturnConfirmation;
 
     public function getLastReturnConfirmation(LibraryMaterialId $id, PatronId $borrowerId): ReturnConfirmation;
+
+    public function exists(ReturnConfirmationId $id): bool;
 }

@@ -82,7 +82,7 @@ class Book extends LibraryMaterial
                         (string)$event->getMaterialId(),
                         (string)$event->getOverDueTimePeriod(),
                     ),
-                    $this
+                    Book::class
                 );
             }
         };

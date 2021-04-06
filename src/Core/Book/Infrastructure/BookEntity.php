@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Core\Book\Infrastructure;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Library\Circulation\Common\Infrastructure\Persistence\Entity\LibraryMaterialEntity;
 use Library\Circulation\Core\Book\Domain\BookConstructorParameterInterface;
 use Library\Circulation\Core\LibraryCard\Infrastructure\LibraryCardEntity;
+use Library\Circulation\Core\Patron\Infrastructure\PatronEntity;
 
 /**
  * @ORM\Entity()
@@ -18,5 +20,12 @@ class BookEntity extends LibraryMaterialEntity implements BookConstructorParamet
     public function getLibraryCard(): LibraryCardEntity
     {
         return $this;
+    }
+
+    public function addEvents(EntityManagerInterface $entityManager, array $events): void
+    {
+        foreach ($events as $event) {
+            $entityManager->persist(new BookEventEntity($this, $event));
+        }
     }
 }

@@ -9,6 +9,7 @@ use Library\Circulation\Common\Domain\ValueObject\DueDate;
 use Library\Circulation\Common\Domain\ValueObject\ReturnDateTime;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\Patron\Domain\PatronId;
+use Library\Circulation\Core\ReturnConfirmation\Application\ReturnConfirmationRepositoryInterface;
 
 /**
  * @package Library\Circulation\Core\ReturnConfirmation\Domain
@@ -49,6 +50,11 @@ class ReturnConfirmation
                 $returnedAt,
             )
         );
+    }
+
+    public function exists(ReturnConfirmationRepositoryInterface $returnConfirmationRepository): bool
+    {
+        return $returnConfirmationRepository->exists($this->id);
     }
 
     protected function getBorrowerId(): PatronId

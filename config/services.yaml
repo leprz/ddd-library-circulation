@@ -30,11 +30,11 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    Library\Circulation\Common\Infrastructure\EventBus\OnKernelTerminate:
+        tags:
+            - { name: kernel.event_listener, event: kernel.terminate }
+
     Library\Circulation\UseCase\BookCheckOut\Application\BookCheckOutHandler:
-        public: true
-    Library\Circulation\Core\LibraryCard\Infrastructure\LibraryCardEntityPersistence: ~
-    Library\Circulation\Core\LibraryCard\LibraryCardPersistenceInterface:
-        alias: Library\Circulation\Core\LibraryCard\Infrastructure\LibraryCardEntityPersistence
         public: true
     Library\Circulation\Common\Application\Date\ClockInterface:
         public: true
@@ -42,6 +42,7 @@ services:
         alias: Library\Circulation\Core\Finance\Infrastructure\FinanceService
         public: true
     Library\Circulation\Core\LibraryCard\Application\LibraryCardPersistenceInterface:
+        alias: Library\Circulation\Core\LibraryCard\Infrastructure\LibraryCardEntityPersistence
         public: true
     Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialPrivilegeBuilder:
         public: true
@@ -72,6 +73,8 @@ services:
             $listenerProvider: '@Library\Circulation\Common\Domain\DomainEvent\DomainListenerProvider'
             $eventStore: '@Library\Circulation\Common\Domain\DomainEvent\DomainEventStore'
     Library\Circulation\Common\Domain\DomainEvent\DomainEventStore:
+        public: true
+    Library\Circulation\UseCase\BookCheckIn\Application\BookCheckInHandler:
         public: true
 
 

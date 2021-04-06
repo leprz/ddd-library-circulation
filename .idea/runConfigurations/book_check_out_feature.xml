@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="book-check-out.feature" type="PhpBehatConfigurationType">
+    <BehatRunner file="$PROJECT_DIR$/features/check-out/book-check-out.feature" scenario="" scope="File" options="--suite=book_check_out" />
+    <method v="2" />
+  </configuration>
+</component>

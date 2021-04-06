@@ -66,6 +66,7 @@ class BookCheckInContext extends BehavioralTestCase implements Context
         $this->returnConfirmation = $this->book->checkIn(
             new BookCheckInCommand(
                 BookMother::default(),
+                PatronMother::default(),
                 new ReturnDateTime($now)
             ),
             $this->checkInAction

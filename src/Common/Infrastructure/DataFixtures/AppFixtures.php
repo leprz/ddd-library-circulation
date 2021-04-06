@@ -23,6 +23,11 @@ class AppFixtures extends Fixture
             $manager
         );
 
+        $this->createBook(
+            ReferenceFixture::$BOOK_CHECKED_OUT,
+            $manager
+        );
+
         $manager->flush();
     }
 

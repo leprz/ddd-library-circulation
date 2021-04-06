@@ -7,13 +7,17 @@ namespace Library\Circulation\Common\Infrastructure\Persistence\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Library\Circulation\Core\LibraryCard\Infrastructure\LibraryCardEntity;
 
+/**
+ * @package Library\Circulation\Common\Infrastructure\Persistence\Entity
+ * @ORM\Entity()
+ */
 class LibraryMaterialEntity extends LibraryCardEntity
 {
     /**
      * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private bool $inLibraryUseOnly;
+    protected bool $inLibraryUseOnly = false;
 
     public function setInLibraryUseOnly(bool $inLibraryUseOnly): void
     {

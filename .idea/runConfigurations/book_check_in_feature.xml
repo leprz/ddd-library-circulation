@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="book-check-in.feature" type="PhpBehatConfigurationType">
+    <BehatRunner configuration_file="$PROJECT_DIR$/behat.yml" file="$PROJECT_DIR$/features/check-in/book-check-in.feature" scenario="" scope="File" options="--suite=book_check_in" use_alternative_configuration_file="true" />
+    <method v="2" />
+  </configuration>
+</component>

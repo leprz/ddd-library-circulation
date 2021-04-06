@@ -45,7 +45,7 @@ class BookCheckInAction implements BookCheckInActionInterface
         $this->libraryCardPersistence->save($libraryCard);
     }
 
-    public function dispatchGlobalEvent(object $event, object $emitter): void
+    public function dispatchGlobalEvent(object $event, string $emitter): void
     {
         $this->eventBus->dispatch(
             new DomainBroadcastEvent(

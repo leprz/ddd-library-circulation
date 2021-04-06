@@ -52,6 +52,11 @@ abstract class LibraryCardEntity implements LibraryCardConstructorParameterInter
         return LibraryMaterialId::fromString($this->id);
     }
 
+    public function setMaterialId(LibraryMaterialId $materialId): void
+    {
+        $this->id = (string)$materialId;
+    }
+
     public function getBorrowerId(): ?PatronId
     {
         if ($this->borrower) {
@@ -96,5 +101,10 @@ abstract class LibraryCardEntity implements LibraryCardConstructorParameterInter
     public function getId(): LibraryMaterialId
     {
         return LibraryMaterialId::fromString($this->id);
+    }
+
+    public function setBorrower(PatronEntity $borrower): void
+    {
+        $this->borrower = $borrower;
     }
 }
