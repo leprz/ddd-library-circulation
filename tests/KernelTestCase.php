@@ -21,7 +21,6 @@ class KernelTestCase extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
             self::bootKernel();
         }
 
-        /** @var T $instance */
         if ($instance = self::$container->get($interface)) {
             return $instance;
         }

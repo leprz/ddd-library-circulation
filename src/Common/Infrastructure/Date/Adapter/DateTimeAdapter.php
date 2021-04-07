@@ -107,6 +107,9 @@ class DateTimeAdapter extends DomainDateTime implements DateTimeBuilderInterface
         return $this->dateTime->isEqual($dateTime->getDate());
     }
 
+    /**
+     * @return \Aeon\Calendar\Gregorian\DateTime
+     */
     protected function getDate(): DateTime
     {
         return $this->dateTime;

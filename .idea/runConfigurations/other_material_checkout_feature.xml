@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="other-material-checkout.feature" type="PhpBehatConfigurationType">
+    <BehatRunner file="$PROJECT_DIR$/features/check-out/other-material-checkout.feature" scenario="" scope="File" options="--suite=other_material_check_out" />
+    <method v="2" />
+  </configuration>
+</component>

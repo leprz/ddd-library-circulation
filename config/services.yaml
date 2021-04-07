@@ -44,7 +44,7 @@ services:
     Library\Circulation\Core\LibraryCard\Application\LibraryCardPersistenceInterface:
         alias: Library\Circulation\Core\LibraryCard\Infrastructure\LibraryCardEntityPersistence
         public: true
-    Library\Circulation\UseCase\OtherMaterialCheckOut\Domain\OtherMaterialPrivilegeBuilder:
+    Library\Circulation\Core\OtherMaterial\Domain\Privilege\OtherMaterialPrivilegeBuilder:
         public: true
     Library\Circulation\Common\Domain\OtherMaterialBorrow\OtherMaterialBorrowPolicyBuilder:
         public: true

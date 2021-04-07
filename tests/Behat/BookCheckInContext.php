@@ -110,7 +110,7 @@ class BookCheckInContext extends BehavioralTestCase implements Context
      */
     public function thisBookIsDaysOverdue(string $overDueDays): void
     {
-        $events = $this->eventStore->filterByEmitter(BookMother::class);
+        $events = $this->eventStore->filterByEmitter(Book::class);
         Assert::assertNotEmpty($events);
         /** @var \Library\SharedKernel\Domain\Event\Circulation\BookCheckedInOverDueEvent $event */
         $event = array_pop($events);
