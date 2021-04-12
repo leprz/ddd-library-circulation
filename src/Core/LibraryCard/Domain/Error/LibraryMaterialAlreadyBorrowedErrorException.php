@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Core\LibraryCard\Domain\Error;
 
-use ErrorException;
+use Library\Circulation\Common\Domain\Error\DomainErrorException;
 
-class LibraryMaterialAlreadyBorrowedErrorException extends ErrorException
+class LibraryMaterialAlreadyBorrowedErrorException extends DomainErrorException
 {
     public static function create(): self
     {

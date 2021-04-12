@@ -10,6 +10,7 @@ use Library\Circulation\Common\Infrastructure\EventBus\EventBus;
 use Library\Circulation\Core\Book\Domain\Book;
 use Library\Circulation\Tests\KernelTestCase;
 use Library\SharedKernel\Domain\Event\Circulation\BookCheckedInOverDueEvent;
+use Ramsey\Uuid\Uuid;
 
 class EventBusTest extends KernelTestCase
 {
@@ -25,15 +26,16 @@ class EventBusTest extends KernelTestCase
         $this->eventDispatcher->dispatch(
             new DomainBroadcastEvent(
                 new BookCheckedInOverDueEvent(
-                    'test',
-                    'test',
-                    'test'
+                    (string) Uuid::uuid4(),
+                    (string) Uuid::uuid4(),
+                    '2:0:0'
                 ),
                 Book::class
             )
         );
 
         $this->sut->dispatchAllDomainEvents();
+        self::assertTrue(true);
     }
 
     protected function setUp(): void

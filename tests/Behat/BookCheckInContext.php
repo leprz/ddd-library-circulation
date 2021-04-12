@@ -55,7 +55,7 @@ class BookCheckInContext extends BehavioralTestCase implements Context
     /**
      * @When /^I check-in this book$/
      */
-    public function iReturnThisBook(): void
+    public function iCheckInThisBook(): void
     {
         if ($this->now) {
             $now = $this->now;

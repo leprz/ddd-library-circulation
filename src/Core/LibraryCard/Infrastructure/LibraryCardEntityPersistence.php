@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Library\Circulation\Core\LibraryCard\Infrastructure;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Library\Circulation\Common\Application\Exception\InvalidArgumentException;
 use Library\Circulation\Core\LibraryCard\Application\LibraryCardPersistenceInterface;
 use Library\Circulation\Core\LibraryCard\Domain\LibraryCard;
 
@@ -36,6 +37,8 @@ class LibraryCardEntityPersistence implements LibraryCardPersistenceInterface
         if ($model instanceof LibraryCardProxy) {
             $this->entityManager->persist($model->getEntity($this->mapper));
         }
+
+        throw new InvalidArgumentException('You try to save new resource. Please use add method instead.');
     }
 
     /**

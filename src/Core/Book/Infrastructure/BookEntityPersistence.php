@@ -6,6 +6,7 @@ namespace Library\Circulation\Core\Book\Infrastructure;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Library\Circulation\Common\Domain\DomainEvent\DomainEventStore;
+use Library\Circulation\Common\Infrastructure\Persistence\Exception\PersistenceException;
 use Library\Circulation\Core\Book\Application\BookPersistenceInterface;
 use Library\Circulation\Core\Book\Domain\Book;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -19,7 +20,6 @@ class BookEntityPersistence implements BookPersistenceInterface
         private EntityManagerInterface $entityManager,
         private BookEntityMapper $mapper,
         private DomainEventStore $eventStore,
-        private MessageBusInterface $eventBus
     ) {
     }
 
@@ -47,7 +47,7 @@ class BookEntityPersistence implements BookPersistenceInterface
             $entity->addEvents($this->entityManager, $this->eventStore->filterByEmitter(Book::class));
         }
 
-        // TODO Throw exception you should use Add method
+        throw PersistenceException::saveUsedInsteadOfAdd();
     }
 
     /**

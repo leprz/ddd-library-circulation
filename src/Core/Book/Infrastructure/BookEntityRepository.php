@@ -7,12 +7,15 @@ namespace Library\Circulation\Core\Book\Infrastructure;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Library\Circulation\Common\Application\Exception\EntityNotFoundException;
+use Library\Circulation\Common\Application\Exception\NotFoundException;
 use Library\Circulation\Core\Book\Application\BookRepositoryInterface;
 use Library\Circulation\Core\Book\Domain\Book;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\Patron\Domain\PatronId;
 use Library\Circulation\Core\Satistics\Application\PatronBorrowedBooksStatisticsRepositoryInterface;
 use Library\SharedKernel\Infrastructure\Persistence\QueryBuilderTrait;
+use LogicException;
 
 /**
  * @package Library\Circulation\Core\Book\Infrastructure
@@ -39,29 +42,22 @@ class BookEntityRepository implements BookRepositoryInterface, PatronBorrowedBoo
     }
 
     /**
-     * @param \Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId $libraryCardId
-     * @return \Library\Circulation\Core\Book\Domain\Book
+     * @inheritdoc
      */
     public function getByLibraryMaterialId(LibraryMaterialId $libraryCardId): Book
     {
-        try {
-            $qb = $this->createQueryBuilder('book');
+        $qb = $this->createQueryBuilder('book');
 
-            $qb->select('book')
-                ->where('book.id = :id')
-                ->setParameters(
-                    [
-                        'id' => $libraryCardId,
-                    ]
-                );
-
-            return new BookProxy(
-                $qb->getQuery()->getSingleResult()
+        $qb->select('book')
+            ->where('book.id = :id')
+            ->setParameters(
+                [
+                    'id' => $libraryCardId,
+                ]
             );
-        } catch (NoResultException $e) {
-        } catch (NonUniqueResultException $e) {
-            // TODO Convert Exception
-        }
+        return new BookProxy(
+            $this->getSingleResult((string) $libraryCardId, $qb)
+        );
     }
 
     public function getByISBN(): Book

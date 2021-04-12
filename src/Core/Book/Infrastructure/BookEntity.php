@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Library\Circulation\Common\Infrastructure\Persistence\Entity\LibraryMaterialEntity;
 use Library\Circulation\Core\Book\Domain\BookConstructorParameterInterface;
 use Library\Circulation\Core\LibraryCard\Infrastructure\LibraryCardEntity;
-use Library\Circulation\Core\Patron\Infrastructure\PatronEntity;
 
 /**
  * @ORM\Entity()

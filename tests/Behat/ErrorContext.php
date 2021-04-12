@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Library\Circulation\Tests\Behat;
 
 use ErrorException;
-use Library\Circulation\Tests\Behat\Exception\ExpectedErrorHasNotBeenThrown;
+use Library\SharedKernel\Infrastructure\Behat\Exception\ExpectedErrorHasNotBeenThrown;
 
 trait ErrorContext
 {
@@ -14,7 +14,7 @@ trait ErrorContext
     /**
      * @Then /^I see error says "([^"]*)"$/
      * @param string $errorMessage
-     * @throws \Library\Circulation\Tests\Behat\Exception\ExpectedErrorHasNotBeenThrown
+     * @throws \Library\SharedKernel\Infrastructure\Behat\Exception\ExpectedErrorHasNotBeenThrown
      */
     public function iSeeErrorSays(string $errorMessage): void
     {

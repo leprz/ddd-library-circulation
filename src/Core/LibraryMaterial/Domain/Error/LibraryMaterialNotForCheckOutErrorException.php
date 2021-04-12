@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Core\LibraryMaterial\Domain\Error;
 
-use ErrorException;
+use Library\Circulation\Common\Domain\Error\DomainErrorException;
 
-class LibraryMaterialNotForCheckOutErrorException extends ErrorException
+class LibraryMaterialNotForCheckOutErrorException extends DomainErrorException
 {
     public static function notForOutsideLibraryUse(): self
     {
