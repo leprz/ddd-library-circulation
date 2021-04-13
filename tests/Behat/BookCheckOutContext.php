@@ -9,6 +9,7 @@ use ErrorException;
 use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
 use Library\Circulation\Core\Book\Domain\Book;
 use Library\Circulation\Core\Finance\Application\FinanceServiceInterface;
+use Library\Circulation\Core\Patron\Domain\PatronIdentity;
 use Library\Circulation\Core\Patron\Domain\PatronType;
 use Library\Circulation\Core\Satistics\Application\PatronBorrowedBooksStatisticsRepositoryInterface;
 use Library\Circulation\Tests\BehavioralTestCase;
@@ -24,9 +25,13 @@ class BookCheckOutContext extends BehavioralTestCase implements Context
     use BorrowContext;
 
     private Book $book;
+
     private BookCheckOutActionInterface $bookCheckOutAction;
+
     private BookCheckOutPolicy $bookCheckOutPolicy;
+
     private FinanceServiceInterface|MockObject $patronFinancialServiceMock;
+
     /**
      * @var \Library\Circulation\Core\Satistics\Application\PatronBorrowedBooksStatisticsRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -97,8 +102,10 @@ class BookCheckOutContext extends BehavioralTestCase implements Context
             $this->libraryCard = $this->book->checkOut(
                 new BookCheckOutCommand(
                     BookMother::default(),
-                    $this->myId,
-                    PatronType::fromString($patronType)
+                    new PatronIdentity(
+                        $this->myId,
+                        PatronType::fromString($patronType)
+                    )
                 ),
                 $this->bookCheckOutAction,
                 $this->bookCheckOutPolicy,

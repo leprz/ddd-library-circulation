@@ -36,6 +36,7 @@ class LibraryCardEntityPersistence implements LibraryCardPersistenceInterface
     {
         if ($model instanceof LibraryCardProxy) {
             $this->entityManager->persist($model->getEntity($this->mapper));
+            return;
         }
 
         throw new InvalidArgumentException('You try to save new resource. Please use add method instead.');

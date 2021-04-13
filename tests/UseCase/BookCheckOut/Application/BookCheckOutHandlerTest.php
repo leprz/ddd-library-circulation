@@ -20,6 +20,7 @@ use Library\Circulation\Core\LibraryCard\Domain\Error\LibraryMaterialAlreadyBorr
 use Library\Circulation\Core\LibraryMaterial\Domain\Error\LibraryMaterialNotForCheckOutErrorException;
 use Library\Circulation\Core\LibraryMaterial\Domain\LibraryMaterialId;
 use Library\Circulation\Core\Patron\Domain\PatronId;
+use Library\Circulation\Core\Patron\Domain\PatronIdentity;
 use Library\Circulation\Core\Patron\Domain\PatronType;
 use Library\Circulation\Tests\Common\Fake\ClockStub;
 use Library\Circulation\Tests\KernelTestCase;
@@ -100,8 +101,10 @@ class BookCheckOutHandlerTest extends KernelTestCase
     {
         return new BookCheckOutCommand(
             LibraryMaterialId::fromString(ReferenceFixture::$BOOK_ID),
-            PatronId::fromString(ReferenceFixture::$PATRON_ID),
-            PatronType::graduateStudent(),
+            new PatronIdentity(
+                PatronId::fromString(ReferenceFixture::$PATRON_ID),
+                PatronType::graduateStudent(),
+            )
         );
     }
 }

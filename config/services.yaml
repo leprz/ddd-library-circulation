@@ -23,9 +23,9 @@ services:
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    Library\Circulation\Common\Infrastructure\Controller\:
-        resource: '../src/Common/Infrastructure/Controller/'
-        tags: ['controller.service_arguments']
+    _instanceof:
+        \Library\Circulation\Common\Infrastructure\Controller\ApiController:
+            tags: [ 'controller.service_arguments' ]
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -37,6 +37,7 @@ services:
     Library\Circulation\UseCase\BookCheckOut\Application\BookCheckOutHandler:
         public: true
     Library\Circulation\Common\Application\Date\ClockInterface:
+        alias: 'Library\Circulation\Common\Infrastructure\Date\SystemClock'
         public: true
     Library\Circulation\Core\Finance\Application\FinanceServiceInterface:
         alias: Library\Circulation\Core\Finance\Infrastructure\FinanceService

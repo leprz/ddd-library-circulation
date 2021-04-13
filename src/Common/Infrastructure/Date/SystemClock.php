@@ -38,6 +38,6 @@ class SystemClock implements ClockInterface
 
     public function timeZone(): DateTimeZone
     {
-        return new DateTimeZone(DateTimeZone::UTC);
+        return new DateTimeZone('UTC');
     }
 }

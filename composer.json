@@ -9,9 +9,12 @@
         "ext-iconv": "*",
         "aeon-php/calendar": "^0.16.1",
         "composer/package-versions-deprecated": "1.11.99.1",
+        "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
+        "jms/serializer-bundle": "^3.9",
+        "phpdocumentor/reflection-docblock": "^5.2",
         "ramsey/uuid": "^4.1",
         "symfony/amqp-messenger": "5.2.*",
         "symfony/browser-kit": "5.2.*",
@@ -22,7 +25,10 @@
         "symfony/framework-bundle": "5.2.*",
         "symfony/messenger": "5.2.*",
         "symfony/monolog-bundle": "^3.7",
+        "symfony/property-access": "5.2.*",
+        "symfony/property-info": "5.2.*",
         "symfony/proxy-manager-bridge": "5.2.*",
+        "symfony/validator": "5.2.*",
         "symfony/yaml": "5.2.*"
     },
     "require-dev": {
