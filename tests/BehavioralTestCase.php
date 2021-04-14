@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Library\Circulation\Tests;
 
-use Library\Circulation\Tests\Behat\ErrorContext;
 use Library\SharedKernel\Infrastructure\Behat\BehaviourTestCaseTrait;
 
 abstract class BehavioralTestCase
 {
     use BehaviourTestCaseTrait;
-    use ErrorContext;
 
     protected static function requirePhpUnit(): void
     {

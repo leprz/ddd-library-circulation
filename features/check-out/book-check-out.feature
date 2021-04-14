@@ -11,7 +11,7 @@ Feature:
 #  - The book is not held by another patron at the moment
   - The book is not for in-library use only
 
-    Scenario Outline: Checking out a book that is available by graduate student
+    Scenario Outline: Checking out a book that is available
       Given There is available book
       When Me as a <patron_type> check out this book
       Then This material is borrowed by me

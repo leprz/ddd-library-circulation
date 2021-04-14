@@ -23,6 +23,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class BookCheckOutContext extends BehavioralTestCase implements Context
 {
     use BorrowContext;
+    use ErrorContext;
 
     private Book $book;
 

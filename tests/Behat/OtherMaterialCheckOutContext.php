@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Library\Circulation\Tests\Behat;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use ErrorException;
 use Library\Circulation\Common\Domain\OtherMaterialBorrow\OtherMaterialBorrowPolicyBuilder;
 use Library\Circulation\Common\Infrastructure\Date\DateTimeBuilder;
@@ -22,8 +21,10 @@ class OtherMaterialCheckOutContext extends BehavioralTestCase implements Context
 {
     use OtherMaterialContext;
     use BorrowContext;
-    private OtherMaterialBorrowPolicyBuilder $policyBuilder;
+    use ErrorContext;
+
     private OtherMaterialCheckOutActionBuilderInterface $actionBuilder;
+    private OtherMaterialBorrowPolicyBuilder $policyBuilder;
     private PatronBorrowedOtherMaterialsStatisticsRepositoryInterface|MockObject $otherMaterialBorrowStatisticsMock;
 
     /**
