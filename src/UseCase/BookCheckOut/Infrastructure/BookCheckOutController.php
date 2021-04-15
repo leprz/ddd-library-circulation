@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Library\Circulation\UseCase\BookCheckOut\Infrastructure;
 
 use Library\Circulation\Common\Application\Exception\EntityNotFoundException;
+use Library\Circulation\Common\Application\Retry\RetryDirectorInterface;
 use Library\Circulation\Common\Infrastructure\Controller\ApiController;
 use Library\Circulation\Core\Book\Domain\Error\ItemsLimitExceededErrorException;
 use Library\Circulation\Core\LibraryCard\Domain\Error\FinancialRulesViolationErrorException;
@@ -22,14 +23,20 @@ class BookCheckOutController extends ApiController
     public function index(
         BookCheckOutHandler $handler,
         Request $request,
-        PatronIdentityProvider $identityProvider
+        PatronIdentityProvider $identityProvider,
+        RetryDirectorInterface $retryDirector
     ): JsonResponse {
         $contract = new BookCheckOutContract();
-        $this->loadDataAndValidateRequestContract($request, $contract);
+
+        $this->loadDataAndValidateRequest($request, $contract);
+
+        $command = $contract->toCommand($identityProvider->getCurrentUser());
+
+        $retryDirector->watch($command, $handler);
 
         try {
             ($handler)(
-                $contract->toCommand($identityProvider->getCurrentUser())
+                $command
             );
         } catch (EntityNotFoundException $e) {
             $this->throwNotFoundHttpException($e);

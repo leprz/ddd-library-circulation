@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\BookCheckIn\Application;
 
-use Library\Circulation\Common\Domain\DomainEvent\DomainEventStore;
+use Library\Circulation\Common\Application\UseCase\UseCaseHandlerInterface;
 use Library\Circulation\Core\Book\Application\BookPersistenceInterface;
 use Library\Circulation\Core\Book\Application\BookRepositoryInterface;
 use Library\Circulation\Core\ReturnConfirmation\Application\ReturnConfirmationPersistenceInterface;
@@ -14,7 +14,7 @@ use Library\Circulation\UseCase\BookCheckIn\Domain\BookCheckInActionInterface;
 /**
  * @package Library\Circulation\UseCase\BookCheckIn\Application
  */
-class BookCheckInHandler
+class BookCheckInHandler implements UseCaseHandlerInterface
 {
     public function __construct(
         private BookRepositoryInterface $bookRepository,
@@ -22,14 +22,13 @@ class BookCheckInHandler
         private BookPersistenceInterface $bookPersistence,
         private ReturnConfirmationPersistenceInterface $returnConfirmationPersistence,
         private ReturnConfirmationRepositoryInterface $returnConfirmationRepository,
-        private DomainEventStore $eventStore
     ) {
     }
-
 
     /**
      * @param \Library\Circulation\UseCase\BookCheckIn\Application\BookCheckInCommand
      * @return void
+     * @throws \Library\Circulation\Common\Application\Exception\EntityNotFoundException
      */
     public function __invoke(BookCheckInCommand $command): void
     {

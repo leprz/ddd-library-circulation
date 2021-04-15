@@ -37,7 +37,7 @@ abstract class LibraryCardEntity implements LibraryCardConstructorParameterInter
 
     /**
      * @var \Library\Circulation\Common\Domain\ValueObject\DateTime|null
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="custom_datetime", nullable=true)
      */
     private ?DateTime $dueDate = null;
 

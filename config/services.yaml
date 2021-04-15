@@ -24,11 +24,16 @@ services:
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     _instanceof:
-        \Library\Circulation\Common\Infrastructure\Controller\ApiController:
+        Library\Circulation\Common\Infrastructure\Controller\ApiController:
             tags: [ 'controller.service_arguments' ]
-
+        Library\Circulation\Common\Application\UseCase\UseCaseHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    Library\Circulation\Common\Infrastructure\CommandBus\OnKernelException:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
 
     Library\Circulation\Common\Infrastructure\EventBus\OnKernelTerminate:
         tags:
@@ -36,6 +41,7 @@ services:
 
     Library\Circulation\UseCase\BookCheckOut\Application\BookCheckOutHandler:
         public: true
+        tags: [ messenger.message_handler ]
     Library\Circulation\Common\Application\Date\ClockInterface:
         alias: 'Library\Circulation\Common\Infrastructure\Date\SystemClock'
         public: true

@@ -2,6 +2,12 @@
     "aeon-php/calendar": {
         "version": "0.16.1"
     },
+    "aeon-php/retry": {
+        "version": "0.6.0"
+    },
+    "aeon-php/sleep": {
+        "version": "0.6.0"
+    },
     "behat/behat": {
         "version": "v3.8.1"
     },
@@ -383,9 +389,6 @@
             "./config/packages/routing.yaml",
             "./config/routes.yaml"
         ]
-    },
-    "symfony/serializer": {
-        "version": "v5.2.4"
     },
     "symfony/serializer-pack": {
         "version": "v1.0.4"

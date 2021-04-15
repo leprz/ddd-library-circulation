@@ -5,12 +5,20 @@ framework:
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
       async: '%env(MESSENGER_TRANSPORT_DSN)%'
+      sync: 'sync://'
+      retry:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        retry_strategy:
+          max_retries: 0
       failed: 'doctrine://default?queue_name=failed'
-      # sync: 'sync://'
 
     routing:
       # Route your messages to the transports
       Library\SharedKernel\Domain\Event\Circulation\DomainBroadcastEventInterface: async
+      Library\Circulation\Common\Application\Retry\RetryInterface: retry
+    default_bus: event.bus
     buses:
       event.bus:
         default_middleware: allow_no_handlers
+      command.bus: ~
+

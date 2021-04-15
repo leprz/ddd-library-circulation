@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "48c637b36841d871896ae53262759c4b",
+    "content-hash": "b62b02dcc160af1df2997d1d64786904",
     "packages": [
         {
             "name": "aeon-php/calendar",
@@ -60,6 +60,115 @@
                 }
             ],
             "time": "2021-02-23T08:58:57+00:00"
+        },
+        {
+            "name": "aeon-php/retry",
+            "version": "0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aeon-php/retry.git",
+                "reference": "be8d0fddfbb374c83b72769c9eb9ce7de398c3c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aeon-php/retry/zipball/be8d0fddfbb374c83b72769c9eb9ce7de398c3c4",
+                "reference": "be8d0fddfbb374c83b72769c9eb9ce7de398c3c4",
+                "shasum": ""
+            },
+            "require": {
+                "aeon-php/calendar": ">=0.14.0",
+                "aeon-php/sleep": ">=0.6.0",
+                "php": ">=7.4.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-latest": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Aeon/Retry/retry_helper.php"
+                ],
+                "psr-4": {
+                    "Aeon\\": [
+                        "src/Aeon"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Retry fragile operations in case of failure with different delay strategies and possibility to skip/terminate execution",
+            "keywords": [
+                "calendar",
+                "fail",
+                "retry"
+            ],
+            "support": {
+                "issues": "https://github.com/aeon-php/retry/issues",
+                "source": "https://github.com/aeon-php/retry/tree/0.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/norberttech",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-01-25T19:46:37+00:00"
+        },
+        {
+            "name": "aeon-php/sleep",
+            "version": "0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aeon-php/sleep.git",
+                "reference": "7a1d91733edd07aaa2dbb8249117b3f114634e43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aeon-php/sleep/zipball/7a1d91733edd07aaa2dbb8249117b3f114634e43",
+                "reference": "7a1d91733edd07aaa2dbb8249117b3f114634e43",
+                "shasum": ""
+            },
+            "require": {
+                "aeon-php/calendar": ">=0.14.0",
+                "php": ">=7.4.2"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Aeon/Sleep/sleep.php"
+                ],
+                "psr-4": {
+                    "Aeon\\": [
+                        "src/Aeon"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Improved sleep function that uses simple TimeUnit and decides between \\sleep and \\usleep",
+            "keywords": [
+                "calendar",
+                "holidays",
+                "immutable",
+                "sleep"
+            ],
+            "support": {
+                "issues": "https://github.com/aeon-php/sleep/issues",
+                "source": "https://github.com/aeon-php/sleep/tree/0.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/norberttech",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-01-25T19:37:34+00:00"
         },
         {
             "name": "brick/math",
@@ -5628,108 +5737,6 @@
                 }
             ],
             "time": "2021-02-22T15:48:39+00:00"
-        },
-        {
-            "name": "symfony/serializer",
-            "version": "v5.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/serializer.git",
-                "reference": "a285f474a72397ccbd384900abc968ffcb511dda"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/a285f474a72397ccbd384900abc968ffcb511dda",
-                "reference": "a285f474a72397ccbd384900abc968ffcb511dda",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2.5",
-                "symfony/polyfill-ctype": "~1.8",
-                "symfony/polyfill-php80": "^1.15"
-            },
-            "conflict": {
-                "phpdocumentor/reflection-docblock": "<3.2.2",
-                "phpdocumentor/type-resolver": "<1.4.0",
-                "symfony/dependency-injection": "<4.4",
-                "symfony/property-access": "<4.4",
-                "symfony/property-info": "<4.4",
-                "symfony/yaml": "<4.4"
-            },
-            "require-dev": {
-                "doctrine/annotations": "^1.10.4",
-                "doctrine/cache": "~1.0",
-                "phpdocumentor/reflection-docblock": "^3.2|^4.0|^5.0",
-                "symfony/cache": "^4.4|^5.0",
-                "symfony/config": "^4.4|^5.0",
-                "symfony/dependency-injection": "^4.4|^5.0",
-                "symfony/error-handler": "^4.4|^5.0",
-                "symfony/filesystem": "^4.4|^5.0",
-                "symfony/form": "^4.4|^5.0",
-                "symfony/http-foundation": "^4.4|^5.0",
-                "symfony/http-kernel": "^4.4|^5.0",
-                "symfony/mime": "^4.4|^5.0",
-                "symfony/property-access": "^4.4.9|^5.0.9",
-                "symfony/property-info": "^4.4|^5.0",
-                "symfony/uid": "^5.1",
-                "symfony/validator": "^4.4|^5.0",
-                "symfony/var-exporter": "^4.4|^5.0",
-                "symfony/yaml": "^4.4|^5.0"
-            },
-            "suggest": {
-                "doctrine/annotations": "For using the annotation mapping. You will also need doctrine/cache.",
-                "doctrine/cache": "For using the default cached annotation reader and metadata cache.",
-                "psr/cache-implementation": "For using the metadata cache.",
-                "symfony/config": "For using the XML mapping loader.",
-                "symfony/mime": "For using a MIME type guesser within the DataUriNormalizer.",
-                "symfony/property-access": "For using the ObjectNormalizer.",
-                "symfony/property-info": "To deserialize relations.",
-                "symfony/var-exporter": "For using the metadata compiler.",
-                "symfony/yaml": "For using the default YAML mapping loader."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Serializer\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Handles serializing and deserializing data structures, including object graphs, into array structures or other formats like XML and JSON.",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/serializer/tree/v5.2.4"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2021-03-02T12:14:02+00:00"
         },
         {
             "name": "symfony/service-contracts",

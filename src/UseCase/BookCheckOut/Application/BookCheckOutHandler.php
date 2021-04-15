@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Library\Circulation\UseCase\BookCheckOut\Application;
 
+use Doctrine\DBAL\ConnectionException;
+use Doctrine\ORM\EntityManagerInterface;
 use Library\Circulation\Common\Application\Date\ClockInterface;
-use Library\Circulation\Common\Application\UseCase\AuthorizedUseCase;
+use Library\Circulation\Common\Application\UseCase\UseCaseHandlerInterface;
 use Library\Circulation\Core\Book\Application\BookRepositoryInterface;
 use Library\Circulation\Core\LibraryCard\Application\LibraryCardPersistenceInterface;
 use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutActionInterface;
@@ -14,7 +16,7 @@ use Library\Circulation\UseCase\BookCheckOut\Domain\BookCheckOutPolicy;
 /**
  * @package Library\Circulation\UseCase\BookCheckOut\Application
  */
-class BookCheckOutHandler extends AuthorizedUseCase
+class BookCheckOutHandler implements UseCaseHandlerInterface
 {
     public function __construct(
         private BookRepositoryInterface $bookRepository,
@@ -22,14 +24,8 @@ class BookCheckOutHandler extends AuthorizedUseCase
         private BookCheckOutPolicy $bookCheckOutPolicy,
         private LibraryCardPersistenceInterface $libraryCardPersistence,
         private ClockInterface $clock,
+        private EntityManagerInterface $entityManager
     ) {
-        parent::__construct();
-    }
-
-    protected function authorize(): void
-    {
-        // TODO: Implement authorize() method.
-        // $this->athorization->
     }
 
     /**

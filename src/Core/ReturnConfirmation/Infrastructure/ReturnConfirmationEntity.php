@@ -44,13 +44,13 @@ class ReturnConfirmationEntity implements ReturnConfirmationConstructorParameter
 
     /**
      * @var \Library\Circulation\Common\Domain\ValueObject\DateTime
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="custom_datetime", nullable=false)
      */
     private DateTime $scheduledReturnDate;
 
     /**
      * @var \Library\Circulation\Common\Domain\ValueObject\DateTime
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="custom_datetime", nullable=false)
      */
     private DateTime $returnedAt;
 

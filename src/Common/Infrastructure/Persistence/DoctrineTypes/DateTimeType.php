@@ -13,7 +13,7 @@ use function is_string;
 
 final class DateTimeType extends \Doctrine\DBAL\Types\DateTimeType
 {
-    public const NAME = 'datetime';
+    public const NAME = 'custom_datetime';
 
     /**
      * {@inheritdoc}

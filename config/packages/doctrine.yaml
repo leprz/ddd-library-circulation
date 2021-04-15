@@ -6,7 +6,7 @@ doctrine:
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '13'
         types:
-            datetime: \Library\Circulation\Common\Infrastructure\Persistence\DoctrineTypes\DateTimeType
+            custom_datetime: \Library\Circulation\Common\Infrastructure\Persistence\DoctrineTypes\DateTimeType
             date: \Library\Circulation\Common\Infrastructure\Persistence\DoctrineTypes\DateType
     orm:
         auto_generate_proxy_classes: true

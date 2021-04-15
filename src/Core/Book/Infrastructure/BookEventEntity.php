@@ -41,7 +41,7 @@ class BookEventEntity
 
     /**
      * @var \Library\Circulation\Common\Domain\ValueObject\DateTime
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="custom_datetime")
      */
 //    private DateTime $emittedAt;
 
